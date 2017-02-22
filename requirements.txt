@@ -1,0 +1,5 @@
+audiostream==0.2
+Cython==0.25.2
+Kivy==1.9.1
+Kivy-Garden==0.1.4
+pygame==1.9.3
