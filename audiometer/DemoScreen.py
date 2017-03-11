@@ -11,8 +11,6 @@ INCSIZE = 512
 
 class DemoScreen(Screen):
     sound_is_playing = False
-    stream = get_output(channels=CHANNELS, buffersize=BUFSIZE, rate=22050)
-    source = SineSource(stream, 440)
 
     def __init__(self, **kwargs):
         super(DemoScreen, self).__init__(**kwargs)
@@ -37,6 +35,8 @@ class DemoScreen(Screen):
     
     def play_freq(self, instance):
         if not self.sound_is_playing:
+            stream = get_output(channels=CHANNELS, buffersize=BUFSIZE, rate=22050)
+            self.source = SineSource(stream, 440)
             self.source.start()
         else:
             self.source.stop()
