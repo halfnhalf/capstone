@@ -2,3 +2,4 @@ venv/
 audiostream/
 .DS_Store
 *.swp
+*.pyc
