@@ -5,6 +5,8 @@ from kivy.uix.slider import Slider
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 
+from audiometer.audio import AudioController
+
 CHANNELS = 2
 BUFSIZE = 2048
 INCSIZE = 512
@@ -17,14 +19,16 @@ class DemoScreen(Screen):
 
         layout = GridLayout(cols=2)
         slider = Slider(min=110, max=880, value=440)
-        button = Button(text="toggle sound", font_size = 14)
+        toggle_sound_button = Button(text="toggle sound", font_size = 40)
+        mute_left_channel_button = Button(text="Mute Left Channel", font_size = 40)
 
         slider.bind(value=self.update_freq)
-        button.bind(on_press=self.play_freq)
-
+        toggle_sound_button.bind(on_press=self.toggle_freq)
+        mute_left_channel_button.bind(on_press=AudioController.mute_left_channel)
 
         layout.add_widget(slider)
-        layout.add_widget(button)
+        layout.add_widget(toggle_sound_button)
+        layout.add_widget(mute_left_channel_button)
 
         self.add_widget(layout)
 
@@ -33,7 +37,7 @@ class DemoScreen(Screen):
         if value != self.source.frequency:
             self.source.frequency = value
     
-    def play_freq(self, instance):
+    def toggle_freq(self, instance):
         if not self.sound_is_playing:
             stream = get_output(channels=CHANNELS, buffersize=BUFSIZE, rate=22050)
             self.source = SineSource(stream, 440)
