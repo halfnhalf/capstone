@@ -6,15 +6,20 @@ from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 
 from audiometer.screens import MenuScreen, DemoScreen
+from audiometer.audio.audiocontroller import AudioController
 
 class Audiometer(App):
+    # these variables are static
+    # our app shouldn't have more than 1 of each at a time
     root = ScreenManager()
+    audio_controller = AudioController()
 
     def build(self):
-        self.root = ScreenManager()
-        self.root.add_widget(DemoScreen(name='demo'))
-        self.root.add_widget(MenuScreen(name='menu'))
-        return self.root
+        Audiometer.root.add_widget(DemoScreen(
+            name='demo',
+            audiometer=Audiometer))
+        Audiometer.root.add_widget(MenuScreen(name='menu'))
+        return Audiometer.root
 
 
 if __name__ == '__main__':
