@@ -9,13 +9,12 @@ class AudioController:
     def mute_left_channel(self):
         pass
 
-    def play_sound(self, instance):
+    def play_sound(self=None, instance=None, frequencies=[(400,.1), (80,.5)], duration=2):
         if not AudioController.sound_is_playing:
             AudioController.sound_is_playing = True
 
             #[(channel 1, volume 1), (channel 2, volume 2) ... (channel n, volume n)]
-            frequencies = [(400,.1), (80,.5)]
-            generate_tone(frequencies, 2)
+            generate_tone(frequencies, duration)
 
         AudioController.sound_is_playing = False 
 
