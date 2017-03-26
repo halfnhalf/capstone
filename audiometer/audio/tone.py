@@ -4,7 +4,8 @@ from itertools import *
 import math
 import struct
 
-RATE = 44100       # sampling rate, Hz, must be integer
+RATE = 44100# sampling rate, Hz, must be integer
+BUFSIZE = 2048*2
 p = pyaudio.PyAudio()
 
 #based on https://zach.se/generate-audio-with-python/
@@ -30,7 +31,7 @@ def generate_tone(frequencies, duration):
     _write_pcm(stream, samples)
 
 
-def _sine_wave(frequency=440.0, framerate=44100, amplitude=0.5,
+def _sine_wave(frequency=440.0, framerate=RATE, amplitude=0.5,
         skip_frame=0):
     '''
     Generate a sine wave at a given frequency of infinite length.
@@ -54,7 +55,7 @@ def _compute_samples(channels, nsamples=None):
     '''
     return islice(izip(*(imap(sum, izip(*channel)) for channel in channels)), nsamples)
 
-def _write_pcm(f, samples, sampwidth=2, framerate=44100, bufsize=2048):
+def _write_pcm(f, samples, sampwidth=2, framerate=RATE, bufsize=BUFSIZE):
     "Write samples as raw PCM data."
     max_amplitude = float(int((2 ** (sampwidth * 8)) / 2) - 1)
 
