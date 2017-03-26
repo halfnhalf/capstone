@@ -4,8 +4,10 @@ from itertools import *
 import math
 import struct
 
-RATE = 44100# sampling rate, Hz, must be integer
-BUFSIZE = 2048*2
+#sampling rate, Hz, must be integer
+RATE = 48000*1
+#how large we want our pcm chunks to be
+BUFSIZE = 512*2
 p = pyaudio.PyAudio()
 
 #based on https://zach.se/generate-audio-with-python/
@@ -18,18 +20,17 @@ def generate_tone(frequencies, duration):
     num_channels = len(frequencies)
     channels = ((_sine_wave(frequencies[0][0], amplitude=frequencies[0][1]),),)
 
-
     for freq in frequencies[1:]:
         channels = channels + ((_sine_wave(freq[0], amplitude=freq[1]),),)
 
     stream = p.open(format=pyaudio.get_format_from_width(2),
             channels=num_channels,
             rate=RATE,
-            output=True)
+            output=True,
+            output_device_index=4)
 
     samples = _compute_samples(channels, RATE * duration)
     _write_pcm(stream, samples)
-
 
 def _sine_wave(frequency=440.0, framerate=RATE, amplitude=0.5,
         skip_frame=0):
@@ -39,7 +40,7 @@ def _sine_wave(frequency=440.0, framerate=RATE, amplitude=0.5,
     if amplitude > 1.0: amplitude = 1.0
     if amplitude < 0.0: amplitude = 0.0
     for i in count(skip_frame):
-        sine = np.sin(2.0 * np.pi * float(frequency) * (float(i) / float(framerate))).astype(np.float32)
+        sine = math.sin(2.0 * np.pi * float(frequency) * (float(i) / float(framerate)))
         yield float(amplitude) * sine
 
 def _grouper(n, iterable, fillvalue=None):
