@@ -4,9 +4,9 @@ import pyaudio
 from array import array
 
 #sampling rate, Hz, must be integer
-RATE = 22050*1
+RATE = 22050*2
 #how large we want our pcm chunks to be
-BUFSIZE = 512*2
+BUFSIZE = 512*200
 SAMPWIDTH = 2
 MAX_AMP= float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
@@ -66,6 +66,17 @@ class Tone():
                 else:
                     datum = 0
                 data.append(datum)
+
+        self.position = self.position+frame_count
+        return data.tostring()
+
+    def _get_chunk_quad(self, frame_count):
+        data = array('h')
+        for i in range(self.position, self.position+frame_count):
+                data.append(int(MAX_AMP * self.table[0][int(i%self.periods[0])]))
+                data.append(int(MAX_AMP * self.table[1][int(i%self.periods[1])]))
+                data.append(int(MAX_AMP * self.table[2][int(i%self.periods[2])]))
+                data.append(int(MAX_AMP * self.table[3][int(i%self.periods[3])]))
 
         self.position = self.position+frame_count
         return data.tostring()

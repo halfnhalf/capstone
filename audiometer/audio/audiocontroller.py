@@ -8,6 +8,7 @@ class AudioController:
 
     def __init__(self, **kwargs):
         self.p = pyaudio.PyAudio()
+        pass
 
     def play_sound(self=None, instance=None, frequencies=[(0,0)], duration=2):
         '''
