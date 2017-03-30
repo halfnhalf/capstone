@@ -20,7 +20,9 @@ def main():
 
         print "testing infinite tone"
         audio_controller.play_sound(frequencies=[(8000,.2),(400,.2)], duration=-1)
-        sleep(10)
+        sleep(2)
+        audio_controller.change_freqs_to(frequencies=[(800,.2),(400,.2)])
+        sleep(2)
         audio_controller.stop_sound()
     else:
         print "left muted"

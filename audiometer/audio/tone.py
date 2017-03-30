@@ -4,9 +4,9 @@ import pyaudio
 from array import array
 
 #sampling rate, Hz, must be integer
-RATE = 48000*2
+RATE = 48000*1
 #how large we want our pcm chunks to be
-BUFSIZE = 512*4
+BUFSIZE = 512*1
 SAMPWIDTH = 2
 MAX_AMP= float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
@@ -39,6 +39,20 @@ class Tone():
             
 
         return (self._get_chunk(frame_count), callback_flag)
+
+    def change_freqs_to(self, frequencies):
+        print self.frequencies
+        self.frequencies = frequencies
+        print self.frequencies
+        self.position = 0
+        self.periods = []
+        self.table = []
+
+        for channel in range(self.num_channels):
+            if frequencies[channel][0] > 0:
+                self.periods.append(int(RATE / frequencies[channel][0]))
+                period = self.periods[channel]
+                self.table.append([float(frequencies[channel][1]) * math.sin(2.0 * 3.14159 * float(self.frequencies[channel][0]) * (float(i%period) / float(RATE))) for i in range(period)])
     
     def _get_chunk(self, frame_count):
         data = array('h')
