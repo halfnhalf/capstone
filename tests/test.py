@@ -6,11 +6,7 @@ def main():
     audio_controller = AudioController()
 
     if platform.system() == "Darwin":
-        print "testing default arguments"
-        audio_controller.play_sound()
-        sleep(2)
-
-        print "testing frequency arguments"
+        print "left muted"
         audio_controller.play_sound(frequencies=[(400,.8),(0,.8)])
         sleep(2)
 
@@ -21,12 +17,13 @@ def main():
         print "testing different frequencies"
         audio_controller.play_sound(frequencies=[(8000,.2),(400,.2)])
         sleep(2)
-    else:
-        print "testing default arguments"
-        audio_controller.play_sound()
-        sleep(2)
 
-        print "testing frequency arguments"
+        print "testing infinite tone"
+        audio_controller.play_sound(frequencies=[(8000,.2),(400,.2)], duration=-1)
+        sleep(10)
+        audio_controller.stop_sound()
+    else:
+        print "left muted"
         audio_controller.play_sound(frequencies=[(400,.8),(0,.8),(400,.8),(0,.8)])
         sleep(2)
 
