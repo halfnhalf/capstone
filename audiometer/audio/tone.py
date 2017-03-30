@@ -1,7 +1,6 @@
-import pyaudio
-from itertools import *
 import math
 import time
+import pyaudio
 from array import array
 
 #sampling rate, Hz, must be integer
@@ -10,7 +9,6 @@ RATE = 48000*2
 BUFSIZE = 512*4
 SAMPWIDTH = 2
 MAX_AMP= float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
-p = pyaudio.PyAudio()
 
 #based on https://zach.se/generate-audio-with-python/
 
@@ -31,7 +29,7 @@ class Tone():
                 self.table.append([float(frequencies[channel][1]) * math.sin(2.0 * 3.14159 * float(self.frequencies[channel][0]) * (float(i%period) / float(RATE))) for i in range(period)])
 
     def callback(self, in_data, frame_count, time_info, status):
-        if self.position >= int((RATE * self.duration)/2):
+        if not self.duration < 0 and self.position >= int((RATE * self.duration)/2):
             self.play_sound = False
 
         if not self.play_sound:
@@ -54,19 +52,3 @@ class Tone():
 
         self.position = self.position+frame_count
         return data.tostring()
-
-def generate_tone(frequencies, duration):
-    '''
-    generate a tone for each frequency passed in a list called frequencies
-    each tone is played on a single channel
-    '''
-    tone = Tone(frequencies, duration)
-
-    stream = p.open(format=pyaudio.get_format_from_width(2),
-            channels=tone.num_channels,
-            rate=RATE,
-            frames_per_buffer=BUFSIZE,
-            output=True,
-            stream_callback=tone.callback)
-
-    stream.start_stream()
