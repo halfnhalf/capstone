@@ -32,7 +32,8 @@ class AudioController:
     def stop_sound(self=None):
         AudioController.sound_object.play_sound = False
 
-
+    def change_freqs_to(self=None, frequencies=None):
+        AudioController.sound_object.change_freqs_to(frequencies)
 
     def update_freq(self, slider, value):
         #value = int(value / 50) * 50
