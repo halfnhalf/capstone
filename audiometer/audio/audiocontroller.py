@@ -4,6 +4,7 @@ import pyaudio
 class AudioController:
     sound_is_playing = False
     sound_object = None
+    stream = None
 
     def __init__(self, **kwargs):
         self.p = pyaudio.PyAudio()
@@ -17,20 +18,27 @@ class AudioController:
         if not AudioController.sound_is_playing:
             AudioController.sound_is_playing = True
             sound = tone.Tone(frequencies, duration)
-            stream = self.p.open(format=pyaudio.get_format_from_width(2),
+            AudioController.stream = self.p.open(format=pyaudio.get_format_from_width(2),
                     channels=sound.num_channels,
                     rate=tone.RATE,
                     frames_per_buffer=tone.BUFSIZE,
                     output=True,
+                    output_device_index=4,
                     stream_callback=sound.callback)
 
-            stream.start_stream()
+            AudioController.stream.start_stream()
             AudioController.sound_object = sound
 
-        AudioController.sound_is_playing = False 
 
     def stop_sound(self=None):
         AudioController.sound_object.play_sound = False
+	self.stop_stream()
+
+    def stop_stream(self=None):
+        if AudioController.sound_is_playing == True:
+            AudioController.stream.stop_stream()
+            AudioController.stream.close()
+        AudioController.sound_is_playing = False 
 
     def change_freqs_to(self=None, frequencies=None):
         AudioController.sound_object.change_freqs_to(frequencies)

@@ -4,9 +4,9 @@ import pyaudio
 from array import array
 
 #sampling rate, Hz, must be integer
-RATE = 48000*1
+RATE = 22050*1
 #how large we want our pcm chunks to be
-BUFSIZE = 512*1
+BUFSIZE = 512*2
 SAMPWIDTH = 2
 MAX_AMP= float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
@@ -21,12 +21,19 @@ class Tone():
         self.position = 0
         self.duration = duration
         self.play_sound = True
+        
+        self._generate_period()
 
+    def _generate_period(self):
         for channel in range(self.num_channels):
-            if frequencies[channel][0] > 0:
-                self.periods.append(int(RATE / frequencies[channel][0]))
+            if self.frequencies[channel][0] > 0:
+                self.periods.append(int(RATE / self.frequencies[channel][0]))
                 period = self.periods[channel]
-                self.table.append([float(frequencies[channel][1]) * math.sin(2.0 * 3.14159 * float(self.frequencies[channel][0]) * (float(i%period) / float(RATE))) for i in range(period)])
+                self.table.append([float(self.frequencies[channel][1]) * math.sin(2.0 * 3.14159 * float(self.frequencies[channel][0]) * (float(i%period) / float(RATE))) for i in range(period)])
+            else:
+                self.periods.append(0)
+                self.table.append([])
+        
 
     def callback(self, in_data, frame_count, time_info, status):
         if not self.duration < 0 and self.position >= int((RATE * self.duration)/2):
@@ -48,11 +55,7 @@ class Tone():
         self.periods = []
         self.table = []
 
-        for channel in range(self.num_channels):
-            if frequencies[channel][0] > 0:
-                self.periods.append(int(RATE / frequencies[channel][0]))
-                period = self.periods[channel]
-                self.table.append([float(frequencies[channel][1]) * math.sin(2.0 * 3.14159 * float(self.frequencies[channel][0]) * (float(i%period) / float(RATE))) for i in range(period)])
+        self._generate_period()
     
     def _get_chunk(self, frame_count):
         data = array('h')
