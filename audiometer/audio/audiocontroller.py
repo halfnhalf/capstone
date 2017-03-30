@@ -9,7 +9,7 @@ class AudioController:
     def mute_left_channel(self):
         pass
 
-    def play_sound(self=None, instance=None, frequencies=[(400,.1), (80,.5)], duration=2):
+    def play_sound(self=None, instance=None, frequencies=[(400,.1), (80,.1)], duration=2):
         if not AudioController.sound_is_playing:
             AudioController.sound_is_playing = True
 
