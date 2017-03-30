@@ -9,7 +9,7 @@ def main():
     sleep(2)
 
     print "testing frequency arguments"
-    audio_controller.play_sound(frequencies=[(400,.1),(400,.1)])
+    audio_controller.play_sound(frequencies=[(400,.8),(400,.8)])
     sleep(2)
 
     print "testing different volumes"
