@@ -13,16 +13,17 @@ class DemoScreen(Screen):
         layout = GridLayout(cols=2)
         slider = Slider(min=110, max=880, value=440)
         play_sound_button = Button(text="play sound", font_size = 40)
-        mute_left_channel_button = Button(text="Mute Left Channel", font_size = 40)
+        stop_sound_button = Button(text="stop sound", font_size = 40)
         go_to_menu_button = Button(text="Menu", font_size = 40)
 
-        slider.bind(value=self.audio_controller.update_freq)
+        slider.bind(value=self.audio_controller.update_tones)
         play_sound_button.bind(on_press=self.audio_controller.play_sound)
+        stop_sound_button.bind(on_press=self.audio_controller.stop_sound)
         go_to_menu_button.bind(on_press=self.go_to_menu)
 
-        #layout.add_widget(slider)
+        layout.add_widget(slider)
         layout.add_widget(play_sound_button)
-        #layout.add_widget(mute_left_channel_button)
+        layout.add_widget(stop_sound_button)
         layout.add_widget(go_to_menu_button)
 
         self.add_widget(layout)
