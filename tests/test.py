@@ -17,7 +17,7 @@ def main(argv):
 
     if channels == 2:
         print "right muted"
-        audio_controller.play_sound(frequencies=[(400,.8),(0,.8)])
+        audio_controller.play_sound(frequencies=[(400,.5),(0,.5)])
         sleep(2)
         audio_controller.stop_sound()
 
@@ -34,7 +34,7 @@ def main(argv):
         print "testing infinite tone"
         audio_controller.play_sound(frequencies=[(8000,.2),(400,.2)], duration=-1)
         sleep(2)
-        audio_controller.change_freqs_to(frequencies=[(800,.2),(400,.2)])
+        audio_controller.update_tones(frequencies=[(800,.2),(400,.2)])
         sleep(2)
         audio_controller.stop_sound()
 
@@ -42,17 +42,17 @@ def main(argv):
         print "right muted"
         audio_controller.play_sound(frequencies=[(400,.8),(0,.8),(400,.8),(0,.8)])
         sleep(2)
-	audio_controller.stop_stream()
+	audio_controller.stop_sound()
 
         print "testing different volumes"
         audio_controller.play_sound(frequencies=[(400,.8),(400,.5),(400,.8),(400,.5)])
         sleep(2)
-	audio_controller.stop_stream()
+	audio_controller.stop_sound()
 
         print "testing different frequencies"
         audio_controller.play_sound(frequencies=[(400,.8),(8000,.8),(400,.8),(8000,.8)])
         sleep(2)
-	audio_controller.stop_stream()
+	audio_controller.stop_sound()
 
     else:
         print "bad channels"
