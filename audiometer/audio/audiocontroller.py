@@ -31,7 +31,6 @@ class AudioController:
                 rate=tone.RATE,
                 frames_per_buffer=tone.BUFSIZE,
                 output=True,
-                output_device_index=4,
                 stream_callback=sounds.callback)
 
         AudioController.stream.start_stream()
