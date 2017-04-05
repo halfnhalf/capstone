@@ -56,10 +56,3 @@ class AudioController:
             AudioController.sound_object.change_freqs_to([(int(value), current_freqs[0][1])] + current_freqs[1:])
         else:
             AudioController.sound_object.change_freqs_to(frequencies)
-
-    def update_freq(self, slider, value):
-        #value = int(value / 50) * 50
-        if AudioController.sound_is_playing:
-            if value != self.source.frequency:
-                self.source.frequency = value
-
