@@ -4,7 +4,7 @@ import pyaudio
 from array import array
 
 #sampling rate, Hz, must be integer
-RATE = 22050*2
+RATE = 22050*1
 #how large we want our pcm chunks to be
 BUFSIZE = 256*1
 SAMPWIDTH = 2
@@ -64,6 +64,7 @@ class Tones():
         del self.sounds[:]
 
         self._generate_periods()
+        time.sleep(.2)
     
     def _get_chunk(self, frame_count):
         data = array('h')
