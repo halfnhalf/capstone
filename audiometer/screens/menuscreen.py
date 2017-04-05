@@ -25,3 +25,6 @@ class MenuScreen(Screen):
 
     def go_to_hearing(self, instance):
         self.screen_manager.current = 'hearing'
+
+    #def go_to_hearig(self, instance):
+    
