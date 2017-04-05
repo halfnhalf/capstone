@@ -23,6 +23,12 @@ class SineWave():
     def generate_period(self):
         self.period = [float(self.volume) * math.sin(2.0 * 3.14159 * float(self.frequency) * (float(i%self.samples_per_period) / float(RATE))) for i in range(self.samples_per_period)]
 
+class Noise():
+    def __init__(self, frequency, volume):
+        self.volume = volume
+
+        def generate_period(self):
+            self.period = [float(self.volume) * random.uniform(-1, 1) for i in range()]
 
 class Tones():
     def __init__(self, frequencies, duration):
