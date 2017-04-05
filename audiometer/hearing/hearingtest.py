@@ -69,11 +69,14 @@ class HearingTest:
     
     def play_freq(self, freq, amp, side):
     	if side:
+    		pass
     		#Left side
-    		self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
+    		#self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
     	else:
+    		pass
     		#Right side
-    		self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
+    		#self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
 	
 	def stop_freq(self):
-		self.audio_controller.stop_sound()
+		pass
+		#self.audio_controller.stop_sound()
