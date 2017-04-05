@@ -9,7 +9,7 @@ class MenuScreen(Screen):
         self.screen_manager = self.audiometer.root
 
         layout = GridLayout(cols=2)
-        go_to_demo_button = Button(text="demo")
+        go_to_demo_button = Button(text="demo", font_size=40)
         go_to_hearing_button = Button(text="hearing")
 
         go_to_demo_button.bind(on_press=self.go_to_demo)
