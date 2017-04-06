@@ -1,10 +1,11 @@
 import math
 import time
 import pyaudio
+import random
 from array import array
 
 #sampling rate, Hz, must be integer
-RATE = 22050*1
+RATE = 22050*2
 #how large we want our pcm chunks to be
 BUFSIZE = 256*1
 SAMPWIDTH = 2
@@ -24,11 +25,14 @@ class SineWave():
         self.period = [float(self.volume) * math.sin(2.0 * 3.14159 * float(self.frequency) * (float(i%self.samples_per_period) / float(RATE))) for i in range(self.samples_per_period)]
 
 class Noise():
-    def __init__(self, frequency, volume):
+    def __init__(self, volume):
         self.volume = volume
+        self.samples_per_period = 50000
 
-        def generate_period(self):
-            self.period = [float(self.volume) * random.uniform(-1, 1) for i in range()]
+        self.generate_period()
+
+    def generate_period(self):
+        self.period = [float(self.volume) * random.uniform(-1, 1) for i in range(self.samples_per_period)]
 
 class Tones():
     def __init__(self, frequencies, duration):
@@ -43,10 +47,13 @@ class Tones():
 
     def _generate_periods(self):
         for channel in range(self.num_channels):
-            if self.frequencies[channel][0] > 0:
-                self.sounds.append(SineWave(self.frequencies[channel][0], self.frequencies[channel][1]))
-            else:
+            this_freq = self.frequencies[channel]
+            if this_freq[0] > 0:
+                self.sounds.append(SineWave(this_freq[0], this_freq[1]))
+            elif this_freq[0] == 0:
                 self.sounds.append(None)
+            else:
+                self.sounds.append(Noise(this_freq[1]))
         
 
     def callback(self, in_data, frame_count, time_info, status):

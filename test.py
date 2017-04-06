@@ -31,6 +31,11 @@ def main(argv):
         sleep(2)
         audio_controller.stop_sound()
 
+        print "testing white noise"
+        audio_controller.play_sound(frequencies=[(-1,.2),(400,.2)])
+        sleep(2)
+        audio_controller.stop_sound()
+
         print "testing infinite tone"
         audio_controller.play_sound(frequencies=[(8000,.2),(400,.2)], duration=-1)
         sleep(2)

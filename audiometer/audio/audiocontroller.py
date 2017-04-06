@@ -23,7 +23,8 @@ class AudioController:
         each tone is played on a single channel
         '''
 
-        assert not AudioController.sound_is_playing
+        if AudioController.sound_is_playing:
+            return
         AudioController.sound_is_playing = True
         sounds = tone.Tones(frequencies, duration)
         AudioController.stream = self.p.open(format=pyaudio.get_format_from_width(2),
@@ -38,7 +39,8 @@ class AudioController:
 
 
     def stop_sound(self, instance=None):
-        assert AudioController.sound_is_playing == True
+        if not AudioController.sound_is_playing:
+           return 
         AudioController.sound_object.stop_sound()
 	self._stop_stream()
 
@@ -49,7 +51,8 @@ class AudioController:
         AudioController.sound_is_playing = False 
 
     def update_tones(self, slider=None, value=None, frequencies=None):
-        assert AudioController.sound_is_playing == True
+        if not AudioController.sound_is_playing:
+           return 
         current_freqs = self.sound_object.frequencies
         if slider:
             AudioController.sound_object.change_freqs_to([(int(value), current_freqs[0][1])] + current_freqs[1:])
