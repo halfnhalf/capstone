@@ -12,20 +12,24 @@ BUFSIZE = 256*1
 SAMPWIDTH = 2
 MAX_AMP = float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
-#based on https://zach.se/generate-audio-with-python/
-
 class SineWave():
     def __init__(self, frequency, volume):
         self.frequency = np.float32(frequency)
         self.volume = np.float32(volume)
-        self.samples_per_period = int(RATE / frequency)
+        self.samples_per_period = int(RATE / frequency) if self.frequency > 0 else 1
+
+        if self.volume < 0:
+            self.volume = 0
+        elif self.volume > 1:
+            self.volume = 1
 
         self.generate_period()
 
     def generate_period(self):
-        seconds_per_period = np.reciprocal(np.float32(self.frequency))
+        seconds_per_period = np.reciprocal(np.float32(self.frequency)) if self.frequency > 0 else 1
         interval = seconds_per_period/np.float32(self.samples_per_period)
         self.period = (self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period)))
+        self.period = np.tile(self.period, int(BUFSIZE*2/self.samples_per_period))
 
 class Noise():
     def __init__(self, volume):
@@ -36,6 +40,14 @@ class Noise():
 
     def generate_period(self):
         self.period = [float(self.volume) * random.uniform(-1, 1) for i in range(self.samples_per_period)]
+
+class Silence():
+    def __init__(self):
+
+        self.generate_period()
+
+    def generate_period(self):
+        self.period = np.arange(BUFSIZE)*0
 
 class Tones():
     def __init__(self, frequencies, duration):
@@ -53,8 +65,8 @@ class Tones():
             this_freq = self.frequencies[channel]
             if this_freq[0] > 0:
                 self.sounds.append(SineWave(this_freq[0], this_freq[1]))
-            elif this_freq[0] == 0:
-                self.sounds.append(None)
+            elif this_freq[1] == 0:
+                self.sounds.append(Silence())
             else:
                 self.sounds.append(Noise(this_freq[1]))
         
@@ -71,29 +83,44 @@ class Tones():
         return (self._get_chunk(frame_count), callback_flag)
 
     def stop_sound(self):
+        '''
+        stop currently playing sounds. This should be called before starting a new sound
+        if you already played a sound
+        '''
         self.play_sound = False
         self.position = 0
 
     def change_freqs_to(self, frequencies):
+        '''
+        change the currently playing frequencies to new ones.
+        This can also change volumes. frequency syntax is the same
+        as AudioController.play_sound()
+        '''
         self.frequencies = frequencies
         self.position = 0
         del self.sounds[:]
 
         self._generate_periods()
-        time.sleep(.2)
+        time.sleep(.2) #allow time to generate the periods before we're allowed to update again
     
     def _get_chunk(self, frame_count):
-        data = array('h')
-        for i in range(self.position, self.position+frame_count):
-            for channel_sound in self.sounds:
-                if channel_sound:
-                    datum = int(MAX_AMP * channel_sound.period[int(i%channel_sound.samples_per_period)])
-                else:
-                    datum = 0
-                data.append(datum)
+        #data = array('h')
+        #for i in range(self.position, self.position+frame_count):
+        #    for channel_sound in self.sounds:
+        #        if channel_sound:
+        #            datum = int(MAX_AMP * channel_sound.period[int(i%channel_sound.samples_per_period)])
+        #        else:
+        #            datum = 0
+        #        data.append(datum)
 
+        #return data.tostring()
+        
+        first_channel = self.sounds[0]
+        second_channel = self.sounds[1]
+        datum = (MAX_AMP * np.vstack((self.sounds[0].period[self.position%first_channel.samples_per_period:self.position+frame_count], 
+            self.sounds[1].period[self.position%second_channel.samples_per_period:self.position+frame_count])).reshape((-1,),order='F')).astype(np.intc)
         self.position = self.position+frame_count
-        return data.tostring()
+        return datum
 
     def _get_chunk_quad(self, frame_count):
         data = array('h')
