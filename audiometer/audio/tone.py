@@ -2,6 +2,7 @@ import math
 import time
 import pyaudio
 import random
+import numpy as np
 from array import array
 
 #sampling rate, Hz, must be integer
@@ -15,14 +16,16 @@ MAX_AMP = float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
 class SineWave():
     def __init__(self, frequency, volume):
-        self.frequency = frequency
-        self.volume = volume
+        self.frequency = np.float32(frequency)
+        self.volume = np.float32(volume)
         self.samples_per_period = int(RATE / frequency)
 
         self.generate_period()
 
     def generate_period(self):
-        self.period = [float(self.volume) * math.sin(2.0 * 3.14159 * float(self.frequency) * (float(i%self.samples_per_period) / float(RATE))) for i in range(self.samples_per_period)]
+        seconds_per_period = np.reciprocal(np.float32(self.frequency))
+        interval = seconds_per_period/np.float32(self.samples_per_period)
+        self.period = (self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period)))
 
 class Noise():
     def __init__(self, volume):
@@ -81,14 +84,12 @@ class Tones():
     
     def _get_chunk(self, frame_count):
         data = array('h')
-
         for i in range(self.position, self.position+frame_count):
             for channel_sound in self.sounds:
                 if channel_sound:
                     datum = int(MAX_AMP * channel_sound.period[int(i%channel_sound.samples_per_period)])
                 else:
                     datum = 0
-
                 data.append(datum)
 
         self.position = self.position+frame_count
