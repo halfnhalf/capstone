@@ -28,7 +28,7 @@ class SineWave():
     def generate_period(self):
         seconds_per_period = np.reciprocal(self.frequency).astype(np.float) if self.frequency > 0 else 1
         interval = (seconds_per_period/self.samples_per_period).astype(np.float)
-        self.period = (self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period))).astype(np.float16)
+        self.period = (self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period))).astype(np.float32)
         #self.period = np.tile(self.period, int(BUFSIZE*2/self.samples_per_period))
 
 class Noise():
@@ -127,10 +127,11 @@ class Tones():
             if isinstance(channel_sound, Silence):
                 channel_chunks.append(np.arange(frame_count)*0)
             else:
-                channel_chunks.append(MAX_AMP * channel_sound.period[np.remainder(np.arange(frame_count), channel_sound.samples_per_period)])
+                print int(MAX_AMP * channel_sound.period[np.remainder(np.arange(frame_count), channel_sound.samples_per_period)])
+                channel_chunks.append((MAX_AMP * channel_sound.period[np.remainder(np.arange(frame_count), channel_sound.samples_per_period)]).astype(np.int))
 
-        print np.vstack((channel_chunks)).reshape((-1,),order='F')
-        return 
+        #print np.vstack((channel_chunks)).reshape((-1,),order='F')
+        return
         return (np.vstack((channel_chunks)).reshape((-1,),order='F')).tostring()
 
 
