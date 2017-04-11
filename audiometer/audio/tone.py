@@ -26,10 +26,10 @@ class SineWave():
         self.generate_period()
 
     def generate_period(self):
-        seconds_per_period = np.reciprocal(np.float32(self.frequency)) if self.frequency > 0 else 1
-        interval = seconds_per_period/np.float32(self.samples_per_period)
-        self.period = (self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period)))
-        self.period = np.tile(self.period, int(BUFSIZE*2/self.samples_per_period))
+        seconds_per_period = np.reciprocal(np.float32(self.frequency)).astype(np.float32) if self.frequency > 0 else 1
+        interval = (seconds_per_period/np.float32(self.samples_per_period)).astype(np.float32)
+        self.period = (self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period))).astype(np.float32)
+        #self.period = np.tile(self.period, int(BUFSIZE*2/self.samples_per_period))
 
 class Noise():
     def __init__(self, volume):
@@ -50,13 +50,20 @@ class Silence():
         self.period = np.arange(BUFSIZE)*0
 
 class Tones():
+    '''
+    used to generate multichannel tones
+    '''
     def __init__(self, frequencies, duration):
         self.num_channels = len(frequencies)
         self.frequencies = frequencies
         self.position = 0
         self.duration = duration
         self.play_sound = True
+
+        # This will store our sound objects
         self.sounds = []
+
+        # This will store our buffer which we will pull chunks from
         
         self._generate_periods()
 
@@ -65,11 +72,10 @@ class Tones():
             this_freq = self.frequencies[channel]
             if this_freq[0] > 0:
                 self.sounds.append(SineWave(this_freq[0], this_freq[1]))
-            elif this_freq[1] == 0:
+            elif this_freq[1] == 0 or this_freq[0] == 0:
                 self.sounds.append(Silence())
             else:
                 self.sounds.append(Noise(this_freq[1]))
-        
 
     def callback(self, in_data, frame_count, time_info, status):
         if not self.duration < 0 and self.position >= int((RATE * self.duration)/2):
@@ -104,23 +110,17 @@ class Tones():
         time.sleep(.2) #allow time to generate the periods before we're allowed to update again
     
     def _get_chunk(self, frame_count):
-        #data = array('h')
-        #for i in range(self.position, self.position+frame_count):
-        #    for channel_sound in self.sounds:
-        #        if channel_sound:
-        #            datum = int(MAX_AMP * channel_sound.period[int(i%channel_sound.samples_per_period)])
-        #        else:
-        #            datum = 0
-        #        data.append(datum)
+        data = array('h')
+        for i in xrange(self.position, self.position+frame_count):
+            for channel_sound in self.sounds:
+                if not isinstance(channel_sound, Silence):
+                    datum = int(MAX_AMP * channel_sound.period[int(i%channel_sound.samples_per_period)])
+                else:
+                    datum = 0
+                data.append(datum)
 
-        #return data.tostring()
-        
-        first_channel = self.sounds[0]
-        second_channel = self.sounds[1]
-        datum = (MAX_AMP * np.vstack((self.sounds[0].period[self.position%first_channel.samples_per_period:self.position+frame_count], 
-            self.sounds[1].period[self.position%second_channel.samples_per_period:self.position+frame_count])).reshape((-1,),order='F')).astype(np.intc)
         self.position = self.position+frame_count
-        return datum
+        return data.tostring()
 
     def _get_chunk_quad(self, frame_count):
         data = array('h')
