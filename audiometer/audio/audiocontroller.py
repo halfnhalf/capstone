@@ -39,18 +39,20 @@ class AudioController:
 
 
     def stop_sound(self, instance=None):
+        '''
+        stop currently playing sound and close the stream
+        this should be called before starting a new sound
+        '''
         if not AudioController.sound_is_playing:
            return 
         AudioController.sound_object.stop_sound()
 	self._stop_stream()
 
-    def _stop_stream(self):
-        if AudioController.sound_is_playing == True:
-            AudioController.stream.stop_stream()
-            AudioController.stream.close()
-        AudioController.sound_is_playing = False 
-
     def update_tones(self, slider=None, value=None, frequencies=None):
+        '''
+        update the currently playing tones with a new 
+        frequency list
+        '''
         if not AudioController.sound_is_playing:
            return 
         current_freqs = self.sound_object.frequencies
@@ -58,3 +60,9 @@ class AudioController:
             AudioController.sound_object.change_freqs_to([(int(value), current_freqs[0][1])] + current_freqs[1:])
         else:
             AudioController.sound_object.change_freqs_to(frequencies)
+
+    def _stop_stream(self):
+        if AudioController.sound_is_playing == True:
+            AudioController.stream.stop_stream()
+            AudioController.stream.close()
+        AudioController.sound_is_playing = False 

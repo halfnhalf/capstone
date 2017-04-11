@@ -14,8 +14,8 @@ MAX_AMP = float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
 class SineWave():
     def __init__(self, frequency, volume):
-        self.frequency = np.float32(frequency)
-        self.volume = np.float32(volume)
+        self.frequency = np.float(frequency)
+        self.volume = np.float(volume)
         self.samples_per_period = int(RATE / frequency) if self.frequency > 0 else 1
 
         if self.volume < 0:
@@ -26,9 +26,9 @@ class SineWave():
         self.generate_period()
 
     def generate_period(self):
-        seconds_per_period = np.reciprocal(np.float32(self.frequency)).astype(np.float32) if self.frequency > 0 else 1
-        interval = (seconds_per_period/np.float32(self.samples_per_period)).astype(np.float32)
-        self.period = (self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period))).astype(np.float32)
+        seconds_per_period = np.reciprocal(self.frequency).astype(np.float) if self.frequency > 0 else 1
+        interval = (seconds_per_period/self.samples_per_period).astype(np.float)
+        self.period = (self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period))).astype(np.float16)
         #self.period = np.tile(self.period, int(BUFSIZE*2/self.samples_per_period))
 
 class Noise():
@@ -110,17 +110,24 @@ class Tones():
         time.sleep(.2) #allow time to generate the periods before we're allowed to update again
     
     def _get_chunk(self, frame_count):
-        data = array('h')
-        for i in xrange(self.position, self.position+frame_count):
-            for channel_sound in self.sounds:
-                if not isinstance(channel_sound, Silence):
-                    datum = int(MAX_AMP * channel_sound.period[int(i%channel_sound.samples_per_period)])
-                else:
-                    datum = 0
-                data.append(datum)
+        #data = array('h')
+        #for i in xrange(self.position, self.position+frame_count):
+        #    for channel_sound in self.sounds:
+        #        if not isinstance(channel_sound, Silence):
+        #            datum = int(MAX_AMP * channel_sound.period[int(i%channel_sound.samples_per_period)])
+        #        else:
+        #            datum = 0
+        #        data.append(datum)
 
-        self.position = self.position+frame_count
-        return data.tostring()
+        #self.position = self.position+frame_count
+        #return data.tostring()
+
+        channel_chunks = []
+        for channel_sound in self.sounds:
+            channel_chunks.append(MAX_AMP * channel_sound.period((np.remainder(np.arange(frame_count), channel_sound.samples_per_period)).astype(np.int)))
+        return (np.vstack((channel_chunks)).reshape((-1,),order='F')).tostring()
+
+
 
     def _get_chunk_quad(self, frame_count):
         data = array('h')
