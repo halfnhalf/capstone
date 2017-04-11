@@ -124,7 +124,13 @@ class Tones():
 
         channel_chunks = []
         for channel_sound in self.sounds:
-            channel_chunks.append(MAX_AMP * channel_sound.period((np.remainder(np.arange(frame_count), channel_sound.samples_per_period)).astype(np.int)))
+            if isinstance(channel_sound, Silence):
+                channel_chunks.append(np.arange(frame_count)*0)
+            else:
+                channel_chunks.append(MAX_AMP * channel_sound.period[np.remainder(np.arange(frame_count), channel_sound.samples_per_period)])
+
+        print np.vstack((channel_chunks)).reshape((-1,),order='F')
+        return 
         return (np.vstack((channel_chunks)).reshape((-1,),order='F')).tostring()
 
 
