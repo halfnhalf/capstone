@@ -6,11 +6,11 @@ import numpy as np
 from array import array
 
 #sampling rate, Hz, must be integer
-RATE = 22050*2
+RATE = 22050*1
 #how large we want our pcm chunks to be
-BUFSIZE = 256*1
+BUFSIZE = 256*2
 SAMPWIDTH = 2
-MAX_AMP = int((2 ** (SAMPWIDTH* 8)) / 2) - 1
+MAX_AMP = float((2 ** (SAMPWIDTH* 8)) / 2) - 1
 
 class SineWave():
     def __init__(self, frequency, volume):
@@ -28,7 +28,7 @@ class SineWave():
     def generate_period(self):
         seconds_per_period = np.reciprocal(self.frequency) if self.frequency > 0 else 1
         self.period = self.volume*np.sin(2*np.pi*self.frequency*np.linspace(0, seconds_per_period, num=self.samples_per_period))
-        print self.period
+        #print self.period
         #self.period = np.tile(self.period, int(BUFSIZE*2/self.samples_per_period))
 
 class Noise():
@@ -110,29 +110,18 @@ class Tones():
         time.sleep(.2) #allow time to generate the periods before we're allowed to update again
     
     def _get_chunk(self, frame_count):
-        #data = array('h')
-        #for i in xrange(self.position, self.position+frame_count):
-        #    for channel_sound in self.sounds:
-        #        if not isinstance(channel_sound, Silence):
-        #            datum = int(MAX_AMP * channel_sound.period[int(i%channel_sound.samples_per_period)])
-        #        else:
-        #            datum = 0
-        #        data.append(datum)
-
-        #self.position = self.position+frame_count
-        #return data.tostring()
 
         channel_chunks = []
         for channel_sound in self.sounds:
             if isinstance(channel_sound, Silence):
-                channel_chunks.append(np.arange(frame_count)*0)
+                channel_chunks.append(MAX_AMP * np.arange(frame_count)*0)
             else:
-                print (MAX_AMP * channel_sound.period[np.remainder(np.arange(frame_count), channel_sound.samples_per_period)]).astype(int)
-                channel_chunks.append((MAX_AMP * channel_sound.period[np.remainder(np.arange(frame_count), channel_sound.samples_per_period)]).astype(np.int))
+                #print (MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+frame_count), channel_sound.samples_per_period)]).astype(int)
+                channel_chunks.append((MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+frame_count), channel_sound.samples_per_period)]).astype(np.int))
 
-        #print np.vstack((channel_chunks)).reshape((-1,),order='F')
-        return
-        return (np.vstack((channel_chunks)).reshape((-1,),order='F')).tostring()
+        self.position =  self.position + frame_count
+        #print np.vstack((channel_chunks)).reshape((-1,),order='F').astype(np.int16).tostring()
+        return (np.vstack((channel_chunks)).reshape((-1,),order='F')).astype(np.int16).tostring()
 
 
 
