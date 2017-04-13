@@ -6,7 +6,7 @@ import numpy as np
 from array import array
 
 #sampling rate, Hz, must be integer
-RATE = 22050*1
+RATE = 22050*2
 #how large we want our pcm chunks to be
 BUFSIZE = 256*2
 SAMPWIDTH = 2
@@ -33,13 +33,14 @@ class SineWave():
 
 class Noise():
     def __init__(self, volume):
-        self.volume = volume
+        self.volume = np.float(volume)
         self.samples_per_period = 50000
 
         self.generate_period()
 
     def generate_period(self):
         self.period = [float(self.volume) * random.uniform(-1, 1) for i in range(self.samples_per_period)]
+        self.period = self.volume*np.random.uniform(-1,1, size=self.samples_per_period)
 
 class Silence():
     def __init__(self):
