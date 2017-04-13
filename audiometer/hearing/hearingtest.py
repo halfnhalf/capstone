@@ -60,17 +60,20 @@ class HearingTest:
             if self.stop.is_set():
                 self.stop_freq()
                 return
-
+            print "playing tone. amp: " + str(amp)
             self.play_freq(freq, amp, side)
             time.sleep(2)
             # self.stop_freq()
             if self.buttonPressed:
                 print "Found button press!"
+                time.sleep(3)
                 break
 
             amp = amp + .1
             if amp > 1:
+                time.sleep(3)
                 break
+            time.sleep(3)
 
         self.buttonPressed = False
         return amp
@@ -80,20 +83,21 @@ class HearingTest:
         print "current freq: " + str(freq)
         print "current amp: " + str(amp)
         #Go down in increments of 10 until no button press
-        self.play_freq(freq, amp, side)
         while True:
             if self.stop.is_set():
                 self.stop_freq()
                 return
 
             self.buttonPressed = False
-            amp = amp - .2
+            print "playing tone. amp: " + str(amp)
             self.play_freq(freq, amp, side)
             time.sleep(2)
-            #self.stop_freq()
             if (not self.buttonPressed) or amp < .1:
+                time.sleep(3)
                 break
             print "Found button press!"
+            amp = amp - .2
+            time.sleep(3)
 
         return amp
 
