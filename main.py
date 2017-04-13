@@ -1,5 +1,4 @@
 from kivy.config import Config
-import threading
 
 Config.set('graphics', 'height', '480')
 Config.set('graphics', 'width', '800')
@@ -15,7 +14,6 @@ class Audiometer(App):
     # our app shouldn't have more than 1 of each at a time
     root = ScreenManager()
     audio_controller = AudioController()
-    stop = threading.Event()
 
     def build(self):
         Audiometer.root.add_widget(DemoScreen(
@@ -33,7 +31,8 @@ class Audiometer(App):
         # The Kivy event loop is about to stop, set a stop signal;
         # otherwise the app window will close, but the Python process will
         # keep running until all secondary threads exit.
-        stop.set()
+        if Audiometer.test:
+            Audiometer.test.stop_thread()
 
 
 if __name__ == '__main__':

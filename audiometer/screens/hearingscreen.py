@@ -12,7 +12,7 @@ class HearingScreen(Screen):
         self.audiometer = kwargs['audiometer']
         self.audio_controller = self.audiometer.audio_controller
         self.screen_manager = self.audiometer.root
-        self.test = HearingTest(audiometer=self.audiometer)
+        self.audiometer.test = HearingTest(audiometer=self.audiometer)
 
         self.layout = BoxLayout(orientation='vertical')
         self.heard_button = Button(text="I hear it!", font_size=50)
@@ -30,12 +30,12 @@ class HearingScreen(Screen):
         threading.Thread(target=self.test_thread).start()
 
     def on_heard_press(self, instance):
-        self.test.button_press()
+        self.audiometer.test.button_press()
 
 
     def test_thread(self):
         #Do test
-        self.test.start_test_sequence()
+        self.audiometer.test.start_test_sequence()
         #Leave page
         self.screen_manager.current = 'demo'
 

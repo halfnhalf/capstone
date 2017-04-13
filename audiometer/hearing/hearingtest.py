@@ -1,4 +1,5 @@
 import time
+import threading
 
 class HearingTest:
     def __init__(self, **kwargs):
@@ -8,16 +9,19 @@ class HearingTest:
         self.leftThresholds = []
         self.rightThresholds = []
         self.buttonPressed = False
+        self.stop = threading.Event()
 
     def start_test_sequence(self=None, instance=None):
         for freq in self.test_freqs:
             self.leftThresholds.append(self.find_threshold(freq, True))
-            if self.audiometer.stop.is_set():
+            if self.stop.is_set():
+                self.stop_freq()
                 return
 
         for freq in self.test_freqs:
             self.rightThresholds.append(self.find_threshold(freq, False))
-            if self.audiometer.stop.is_set():
+            if self.stop.is_set():
+                self.stop_freq()
                 return
             
 
@@ -26,7 +30,8 @@ class HearingTest:
         #Start at 10db below lowest threshold indicated during familiarization
         lastResponse = .1
         while len(amps) < 5:
-            if self.audiometer.stop.is_set():
+            if self.stop.is_set():
+                self.stop_freq()
                 return
 
             lastResponse = self.ascend(freq, lastResponse, side)
@@ -49,7 +54,8 @@ class HearingTest:
     def ascend(self, freq, amp, side):
         #Go up by increments of 5db until button pressed
         while True:
-            if self.audiometer.stop.is_set():
+            if self.stop.is_set():
+                self.stop_freq()
                 return
 
             self.play_freq(freq, amp, side)
@@ -69,7 +75,8 @@ class HearingTest:
         #Go down in increments of 10 until no button press
         self.play_freq(freq, amp, side)
         while True:
-            if self.audiometer.stop.is_set():
+            if self.stop.is_set():
+                self.stop_freq()
                 return
 
             self.buttonPressed = False
@@ -100,4 +107,8 @@ class HearingTest:
             self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
     
     def stop_freq(self):
-        self.audio_controller.stop_sound()
+        if self.audio_controller.sound_is_playing:
+            self.audio_controller.stop_sound()
+
+    def stop_thread(self):
+        self.stop.set()
