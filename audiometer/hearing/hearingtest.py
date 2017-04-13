@@ -52,6 +52,9 @@ class HearingTest:
 
 
     def ascend(self, freq, amp, side):
+        print "starting ascent"
+        print "current freq: " + str(freq)
+        print "current amp: " + str(amp)
         #Go up by increments of 5db until button pressed
         while True:
             if self.stop.is_set():
@@ -62,6 +65,7 @@ class HearingTest:
             time.sleep(2)
             # self.stop_freq()
             if self.buttonPressed:
+                print "Found button press!"
                 break
 
             amp = amp + .1
@@ -72,6 +76,9 @@ class HearingTest:
         return amp
 
     def descend(self, freq, amp, side):
+        print "starting descent"
+        print "current freq: " + str(freq)
+        print "current amp: " + str(amp)
         #Go down in increments of 10 until no button press
         self.play_freq(freq, amp, side)
         while True:
@@ -86,6 +93,7 @@ class HearingTest:
             #self.stop_freq()
             if (not self.buttonPressed) or amp < .1:
                 break
+            print "Found button press!"
 
         return amp
 
