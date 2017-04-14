@@ -8,9 +8,9 @@ from array import array
 #sampling rate, Hz, must be integer
 RATE = 22050*2
 #how large we want our pcm chunks to be
-BUFSIZE = 256*2
+BUFSIZE = 256*400
 SAMPWIDTH = 2
-MAX_AMP = float((2 ** (SAMPWIDTH* 8)) / 2) - 1
+MAX_AMP = float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
 class SineWave():
     def __init__(self, frequency, volume):
@@ -69,6 +69,7 @@ class Tones():
         self._generate_periods()
 
     def _generate_periods(self):
+        print self.num_channels
         for channel in range(self.num_channels):
             this_freq = self.frequencies[channel]
             if this_freq[0] > 0:
@@ -121,8 +122,8 @@ class Tones():
                 channel_chunks.append((MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+frame_count), channel_sound.samples_per_period)]).astype(np.int))
 
         self.position =  self.position + frame_count
-        #print np.vstack((channel_chunks)).reshape((-1,),order='F').astype(np.int16).tostring()
-        return (np.vstack((channel_chunks)).reshape((-1,),order='F')).astype(np.int16).tostring()
+        #print np.vstack((channel_chunks)).reshape((-1,),order='F').astype(np.int16)
+        return (np.vstack(channel_chunks).reshape((-1,),order='F')).astype(np.int16).tostring()
 
 
 
