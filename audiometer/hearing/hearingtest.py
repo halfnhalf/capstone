@@ -92,14 +92,14 @@ class HearingTest:
             # self.stop_freq()
             if self.buttonPressed:
                 print "Found button press!"
-                time.sleep(3)
+                time.sleep(1)
                 break
 
             amp = amp + .1
             if amp > 1:
-                time.sleep(3)
+                time.sleep(1)
                 break
-            time.sleep(3)
+            time.sleep(1)
 
         self.buttonPressed = False
         return amp
@@ -119,7 +119,7 @@ class HearingTest:
             self.play_freq(freq, amp, side, bone)
             time.sleep(2)
             if (not self.buttonPressed):
-                time.sleep(3)
+                time.sleep(1)
                 break
             print "Found button press!"
             amp = amp - .2
@@ -127,7 +127,7 @@ class HearingTest:
                 amp = amp + 0.2
                 break
                 
-            time.sleep(3)
+            time.sleep(1)
 
         return amp
 
