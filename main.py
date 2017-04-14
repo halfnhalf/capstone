@@ -1,4 +1,5 @@
 from kivy.config import Config
+
 Config.set('graphics', 'height', '480')
 Config.set('graphics', 'width', '800')
 
@@ -25,6 +26,13 @@ class Audiometer(App):
             name='hearing',
             audiometer=Audiometer))
         return Audiometer.root
+
+    def on_stop(self):
+        # The Kivy event loop is about to stop, set a stop signal;
+        # otherwise the app window will close, but the Python process will
+        # keep running until all secondary threads exit.
+        if Audiometer.test:
+            Audiometer.test.stop_thread()
 
 
 if __name__ == '__main__':
