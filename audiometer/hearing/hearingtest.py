@@ -118,11 +118,15 @@ class HearingTest:
             print "playing tone. amp: " + str(amp)
             self.play_freq(freq, amp, side, bone)
             time.sleep(2)
-            if (not self.buttonPressed) or amp < .1:
+            if (not self.buttonPressed):
                 time.sleep(3)
                 break
             print "Found button press!"
             amp = amp - .2
+            if amp < 0.1:
+                amp = amp + 0.2
+                break
+                
             time.sleep(3)
 
         return amp
@@ -136,13 +140,13 @@ class HearingTest:
             
         if side:
             #Left side
-            if bone:
+            if not bone:
                 self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
             else:
                 self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
         else:
             #Right side
-            if bone:
+            if not bone:
                 self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
             else:
                 self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
