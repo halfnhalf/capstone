@@ -69,7 +69,6 @@ class Tones():
         self._generate_periods()
 
     def _generate_periods(self):
-        print self.num_channels
         for channel in range(self.num_channels):
             this_freq = self.frequencies[channel]
             if this_freq[0] > 0:
