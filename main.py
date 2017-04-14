@@ -7,7 +7,7 @@ Config.set('graphics', 'width', '800')
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 
-from audiometer.screens import MenuScreen, DemoScreen, HearingScreen
+from audiometer.screens import MenuScreen, DemoScreen, HearingScreen, ResultsScreen
 from audiometer.audio.audiocontroller import AudioController
 
 class Audiometer(App):
@@ -26,6 +26,9 @@ class Audiometer(App):
             audiometer=Audiometer))
         Audiometer.root.add_widget(HearingScreen(
             name='hearing',
+            audiometer=Audiometer))
+        Audiometer.root.add_widget(ResultsScreen(
+            name='results',
             audiometer=Audiometer))
         return Audiometer.root
 
