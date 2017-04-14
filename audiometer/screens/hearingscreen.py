@@ -24,10 +24,17 @@ class HearingScreen(Screen):
         self.add_widget(self.layout)
 
     def on_start_press(self, instance):
-        #Disable button
-        instance.disabled = True
         #Start thread with test
         threading.Thread(target=self.test_thread).start()
+        self.start_button.funbind('on_press', self.on_start_press)
+        self.start_button.fbind('on_press', self.on_stop_press)
+        self.start_button.text = "Stop Test!"
+
+    def on_stop_press(self, instance):
+        self.audiometer.test.stop_thread()
+        self.start_button.funbind('on_press', self.on_stop_press)
+        self.start_button.fbind('on_press', self.on_start_press)
+        self.start_button.text = "Start Test!"
 
     def on_heard_press(self, instance):
         self.audiometer.test.button_press()
