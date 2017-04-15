@@ -17,40 +17,45 @@ def main(argv):
 
     if channels == 2:
         print "right muted"
-        audio_controller.play_sound(frequencies=[(400,.5),(0,.5)])
+        audio_controller.play_sound(frequencies=[(400,.1),(0,0)])
         sleep(2)
         audio_controller.stop_sound()
 
         print "testing different volumes"
-        audio_controller.play_sound(frequencies=[(400,.2),(400,.5)])
+        audio_controller.play_sound(frequencies=[(400,.05),(400,.1)])
         sleep(2)
         audio_controller.stop_sound()
 
         print "testing different frequencies"
-        audio_controller.play_sound(frequencies=[(8000,.2),(400,.2)])
+        audio_controller.play_sound(frequencies=[(8000,.1),(400,.1)])
+        sleep(2)
+        audio_controller.stop_sound()
+
+        print "testing white noise"
+        audio_controller.play_sound(frequencies=[(-1,.1),(400,.1)])
         sleep(2)
         audio_controller.stop_sound()
 
         print "testing infinite tone"
-        audio_controller.play_sound(frequencies=[(8000,.2),(400,.2)], duration=-1)
+        audio_controller.play_sound(frequencies=[(8000,.1),(400,.1)], duration=-1)
         sleep(2)
-        audio_controller.update_tones(frequencies=[(800,.2),(400,.2)])
+        audio_controller.update_tones(frequencies=[(800,.1),(400,.1)])
         sleep(2)
         audio_controller.stop_sound()
 
     elif channels == 4:
         print "right muted"
-        audio_controller.play_sound(frequencies=[(400,.8),(0,.8),(400,.8),(0,.8)])
+        audio_controller.play_sound(frequencies=[(400,.05),(0,0),(400,.1),(0,0)])
         sleep(2)
 	audio_controller.stop_sound()
 
         print "testing different volumes"
-        audio_controller.play_sound(frequencies=[(400,.8),(400,.5),(400,.8),(400,.5)])
+        audio_controller.play_sound(frequencies=[(400,.2),(400,.1),(400,.2),(400,.1)])
         sleep(2)
 	audio_controller.stop_sound()
 
         print "testing different frequencies"
-        audio_controller.play_sound(frequencies=[(400,.8),(8000,.8),(400,.8),(8000,.8)])
+        audio_controller.play_sound(frequencies=[(400,.1),(8000,.1),(400,.1),(2000,.1)])
         sleep(2)
 	audio_controller.stop_sound()
 

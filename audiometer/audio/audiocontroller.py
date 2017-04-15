@@ -1,5 +1,6 @@
 import tone
 import pyaudio
+from sys import platform
 
 class AudioController:
     '''
@@ -26,18 +27,30 @@ class AudioController:
         assert not AudioController.sound_is_playing
         AudioController.sound_is_playing = True
         sounds = tone.Tones(frequencies, duration)
-        AudioController.stream = self.p.open(format=pyaudio.get_format_from_width(2),
-                channels=sounds.num_channels,
-                rate=tone.RATE,
-                frames_per_buffer=tone.BUFSIZE,
-                output=True,
-                stream_callback=sounds.callback)
+        if platform == "linux" or platform == "linux2":
+            AudioController.stream = self.p.open(format=pyaudio.get_format_from_width(2),
+                    channels=sounds.num_channels,
+                    rate=tone.RATE,
+                    frames_per_buffer=tone.BUFSIZE,
+                    output=True,
+                    stream_callback=sounds.callback,
+                    output_device_index=4)
+        else:
+            AudioController.stream = self.p.open(format=pyaudio.get_format_from_width(2),
+                    channels=sounds.num_channels,
+                    rate=tone.RATE,
+                    frames_per_buffer=tone.BUFSIZE,
+                    output=True,
+                    stream_callback=sounds.callback)
 
         AudioController.stream.start_stream()
         AudioController.sound_object = sounds
 
-
     def stop_sound(self, instance=None):
+        '''
+        stop currently playing sound and close the stream
+        this should be called before starting a new sound
+        '''
         assert AudioController.sound_is_playing == True
         AudioController.sound_object.stop_sound()
 	self._stop_stream()
