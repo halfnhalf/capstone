@@ -1,5 +1,6 @@
 import time
 import threading
+import json
 
 class HearingTest:
     def __init__(self, **kwargs):
@@ -12,6 +13,7 @@ class HearingTest:
         self.rightBoneThresholds = []
         self.buttonPressed = False
         self.stop = threading.Event()
+        self.resultsJSON = None
 
     def start_test_sequence(self=None, instance=None):
         for freq in self.test_freqs:
@@ -164,3 +166,6 @@ class HearingTest:
         print "Right Air Conduction: " + str(self.rightThresholds)
         print "Left Bone Conduction: " + str(self.leftBoneThresholds)
         print "Right Bone Conduction: " + str(self.rightBoneThresholds)
+        self.resultsJSON = json.dumps([{'left':[{'air':leftThresholds}, {'bone':leftBoneThresholds}]}, \
+                                        {'right' : [{'air':rightThresholds}, {'bone':rightBoneThresholds}]}])
+        print(self.resultsJSON)
