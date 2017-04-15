@@ -29,11 +29,11 @@ class ResultsScreen(Screen):
         self.add_widget(self.layout)
        
 
-with open('/Users/jamesle/Documents/capstone/data/test.json') as json_data:
-   		results = json.load(json_data)
- 
-print "Frequencies: ", results['Left Ear'][0]['Frequencies']
-print "Decibels ", results['Right Ear'][0]['decibels']
+#with open('/Users/jamesle/Documents/capstone/data/test.json') as json_data:
+#   		results = json.load(json_data)
+# 
+#print "Frequencies: ", results['Left Ear'][0]['Frequencies']
+#print "Decibels ", results['Right Ear'][0]['decibels']
 
 	
 
