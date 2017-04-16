@@ -8,7 +8,7 @@ from array import array
 #sampling rate, Hz, must be integer
 RATE = 22050*2
 #how large we want our pcm chunks to be
-BUFSIZE = 256*400
+BUFSIZE = 256*20
 SAMPWIDTH = 2
 MAX_AMP = float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
