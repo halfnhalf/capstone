@@ -1,6 +1,7 @@
 import time
 import threading
 import json
+import math
 
 class HearingTest:
     def __init__(self, **kwargs):
@@ -139,6 +140,12 @@ class HearingTest:
     def play_freq(self, freq, amp, side, bone):
         if self.audio_controller.sound_is_playing:
             self.audio_controller.stop_sound()
+
+        #Calibrate relative to MAF Threshold
+        amp = getRelativeAmp(freq, amp)
+        amp = 0 if amp < 0 else amp
+        #Get soundcard amplitude percentage based on desired decibel level
+        amp = getSoundcardAmp(freq, amp)
             
         if side:
             #Left side
@@ -169,3 +176,10 @@ class HearingTest:
         self.resultsJSON = json.dumps([{'left':[{'air':leftThresholds}, {'bone':leftBoneThresholds}]}, \
                                         {'right' : [{'air':rightThresholds}, {'bone':rightBoneThresholds}]}])
         print(self.resultsJSON)
+
+    def getSoundcardAmp(self, freq, desiredAmp):
+        return math.exp(.115*desiredAmp)*.0003
+
+    def getRelativeAmp(self, freq, desiredAmp):
+        thresholdCurve = {250:17, 500:6, 1000:4.2, 2000:1, 4000:-3.9, 8000:15.3}
+        return desiredAmp + thresholdCurve[freq]
