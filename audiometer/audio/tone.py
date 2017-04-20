@@ -42,14 +42,6 @@ class Noise():
         self.period = [float(self.volume) * random.uniform(-1, 1) for i in range(self.samples_per_period)]
         self.period = self.volume*np.random.uniform(-1,1, size=self.samples_per_period)
 
-class Silence():
-    def __init__(self):
-
-        self.generate_period()
-
-    def generate_period(self):
-        self.period = np.arange(BUFSIZE)*0
-
 class Tones():
     '''
     used to generate multichannel tones
@@ -74,7 +66,7 @@ class Tones():
             if this_freq[0] > 0:
                 self.sounds.append(SineWave(this_freq[0], this_freq[1]))
             elif this_freq[1] == 0 or this_freq[0] == 0:
-                self.sounds.append(Silence())
+                self.sounds.append(None)
             else:
                 self.sounds.append(Noise(this_freq[1]))
 
@@ -114,7 +106,7 @@ class Tones():
 
         channel_chunks = []
         for channel_sound in self.sounds:
-            if isinstance(channel_sound, Silence):
+            if channel_sound is None: 
                 channel_chunks.append(MAX_AMP * np.arange(frame_count)*0)
             else:
                 #print (MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+frame_count), channel_sound.samples_per_period)]).astype(int)
