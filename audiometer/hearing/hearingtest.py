@@ -57,7 +57,7 @@ class HearingTest:
     def find_threshold(self, freq, side, bone):
         amps = []
         #Start at 10db below lowest threshold indicated during familiarization
-        lastResponse = .1
+        lastResponse = 0
         while len(amps) < 5:
             if self.stop.is_set():
                 self.stop_freq()
@@ -98,8 +98,8 @@ class HearingTest:
                 time.sleep(1)
                 break
 
-            amp = amp + .1
-            if amp > 1:
+            amp = amp + 10
+            if amp > 120:
                 time.sleep(1)
                 break
             time.sleep(1)
@@ -125,9 +125,9 @@ class HearingTest:
                 time.sleep(1)
                 break
             print "Found button press!"
-            amp = amp - .2
-            if amp < 0.1:
-                amp = amp + 0.2
+            amp = amp - 20
+            if amp < 0:
+                amp = amp + 20
                 break
                 
             time.sleep(1)
@@ -142,10 +142,10 @@ class HearingTest:
             self.audio_controller.stop_sound()
 
         #Calibrate relative to MAF Threshold
-        amp = getRelativeAmp(freq, amp)
+        amp = self.getRelativeAmp(freq, amp)
         amp = 0 if amp < 0 else amp
         #Get soundcard amplitude percentage based on desired decibel level
-        amp = getSoundcardAmp(freq, amp)
+        amp = self.getSoundcardAmp(freq, amp)
             
         if side:
             #Left side
@@ -173,8 +173,8 @@ class HearingTest:
         print "Right Air Conduction: " + str(self.rightThresholds)
         print "Left Bone Conduction: " + str(self.leftBoneThresholds)
         print "Right Bone Conduction: " + str(self.rightBoneThresholds)
-        self.resultsJSON = json.dumps([{'left':[{'air':leftThresholds}, {'bone':leftBoneThresholds}]}, \
-                                        {'right' : [{'air':rightThresholds}, {'bone':rightBoneThresholds}]}])
+        self.resultsJSON = json.dumps([{'left':[{'air':self.leftThresholds}, {'bone':self.leftBoneThresholds}]}, \
+                                        {'right' : [{'air':self.rightThresholds}, {'bone':self.rightBoneThresholds}]}])
         print(self.resultsJSON)
 
     def getSoundcardAmp(self, freq, desiredAmp):
