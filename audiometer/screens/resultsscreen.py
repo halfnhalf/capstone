@@ -2,6 +2,7 @@ import json
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+import os
 from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
@@ -16,7 +17,7 @@ class ResultsScreen(Screen):
         self.screen_manager = self.audiometer.root
         self.layout = FloatLayout(size=(800, 480))
         #opens json file, change directory
-        with open('/Users/jamesle/Documents/capstone/data/test.json') as json_data:
+        with open(os.path.join(os.path.dirname(__file__),'../../data/test.json')) as json_data:
                 results = json.load(json_data)
         #sets both ear axes for air
         air_left_x = results['air']['Left Ear'][0]['Frequencies']
