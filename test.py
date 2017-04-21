@@ -55,7 +55,7 @@ def main(argv):
 	audio_controller.stop_sound()
 
         print "testing different frequencies"
-        audio_controller.play_sound(frequencies=[(400,.1),(8000,.1),(400,.1),(2000,.1)])
+        audio_controller.play_sound(frequencies=[(400,.1),(8000,.1),(400,.1),(8000,.1)])
         sleep(2)
 	audio_controller.stop_sound()
 
