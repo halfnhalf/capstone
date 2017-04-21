@@ -3,12 +3,12 @@ import time
 import pyaudio
 import random
 import numpy as np
-from array import array
+import sounddevice as sd
 
 #sampling rate, Hz, must be integer
-RATE = 48000#22050*2
+RATE = 44100#22050#22050*2
 #how large we want our pcm chunks to be
-BUFSIZE = 256*20
+BUFSIZE = 246*20
 SAMPWIDTH = 2
 MAX_AMP = float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
@@ -68,29 +68,28 @@ class Tones():
             else:
                 self.sounds.append(Noise(this_freq[1]))
 
-    def callback(self, in_data, frame_count, time_info, status):
+    def callback(self, outdata, frame_count, time, status):
         portion = frame_count
         if not self.duration < 0 and self.position >= int((RATE * self.duration)/2):
             self.stop_sound()
 
         if not self.play_sound:
-            callback_flag = pyaudio.paComplete
-            return (None, callback_flag)
-        else:
-            callback_flag = pyaudio.paContinue
+            raise sd.CallbackStop()
 
         #return (self._get_chunk(frame_count), callback_flag)
         channel_chunks = []
         for channel_sound in self.sounds:
             if channel_sound is None: 
-                channel_chunks.append(MAX_AMP * np.arange(portion)*0)
+                channel_chunks.append(np.zeros(portion))
             else:
                 #print (MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+frame_count), channel_sound.samples_per_period)]).astype(int)
-                channel_chunks.append((MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+portion), channel_sound.samples_per_period)]))
+                #channel_chunks.append((MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+portion), channel_sound.samples_per_period)]).astype(np.int16))
+                channel_chunks.append((MAX_AMP * np.take(channel_sound.period, range(self.position%channel_sound.samples_per_period,(self.position%channel_sound.samples_per_period)+portion), mode='wrap')))
 
         self.position =  self.position + portion
         #print (np.vstack(channel_chunks).reshape((-1,),order='F')).astype(np.int16).tostring()
-        return ((np.vstack(channel_chunks).reshape((-1,),order='F')).astype(np.int16).tostring(), callback_flag)
+        test = np.transpose(np.array(channel_chunks))
+        outdata[:] = test
 
     def stop_sound(self):
         '''
