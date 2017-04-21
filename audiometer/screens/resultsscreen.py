@@ -2,11 +2,8 @@ import json
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
-<<<<<<< HEAD
 from kivy.uix.button import Button
-=======
 import os
->>>>>>> ed4b75caf85fc9c75324c48c7d194223e6ba4d32
 from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
