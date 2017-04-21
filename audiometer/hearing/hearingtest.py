@@ -100,6 +100,7 @@ class HearingTest:
 
             amp = amp + 10
             if amp > 120:
+                amp = 120
                 time.sleep(1)
                 break
             time.sleep(1)
@@ -127,7 +128,7 @@ class HearingTest:
             print "Found button press!"
             amp = amp - 20
             if amp < 0:
-                amp = amp + 20
+                amp = 0
                 break
                 
             time.sleep(1)
