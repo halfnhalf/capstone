@@ -10,7 +10,7 @@ class MenuScreen(Screen):
 
         layout = GridLayout(cols=3)
         go_to_demo_button = Button(text="demo", font_size=40)
-        go_to_hearing_button = Button(text="hearing")
+        go_to_hearing_button = Button(text="hearing", font_size = 40)
         go_to_results_button = Button(text="results", font_size=40)
 
         go_to_demo_button.bind(on_press=self.go_to_demo)
