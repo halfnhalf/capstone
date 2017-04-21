@@ -2,7 +2,11 @@ import json
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+<<<<<<< HEAD
 from kivy.uix.button import Button
+=======
+import os
+>>>>>>> ed4b75caf85fc9c75324c48c7d194223e6ba4d32
 from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
@@ -19,7 +23,7 @@ class ResultsScreen(Screen):
         test_button = Button(text="back", size_hint = (1,0.25), pos = (0,400), font_size = 20)
         test_button.bind(on_press=self.go_to_menu)
         #opens json file, change directory
-        with open('/Users/jamesle/Documents/capstone/data/test.json') as json_data:
+        with open(os.path.join(os.path.dirname(__file__),'../../data/test.json')) as json_data:
                 results = json.load(json_data)
 
         #sets both ear axes for air
