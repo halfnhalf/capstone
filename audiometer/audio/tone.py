@@ -71,6 +71,7 @@ class Tones():
     def callback(self, in_data, frame_count, time_info, status):
         portion = frame_count
         if not self.duration < 0 and self.position >= int((RATE * self.duration)/2):
+            print "here"
             self.stop_sound()
 
         if not self.play_sound:
@@ -88,8 +89,8 @@ class Tones():
                 #print (MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+frame_count), channel_sound.samples_per_period)]).astype(int)
                 channel_chunks.append((MAX_AMP * channel_sound.period[np.remainder(np.arange(self.position, self.position+portion), channel_sound.samples_per_period)]))
 
-        print channel_chunks[0]
         self.position =  self.position + portion
+        #print (np.vstack(channel_chunks).reshape((-1,),order='F')).astype(np.int16).tostring()
         return ((np.vstack(channel_chunks).reshape((-1,),order='F')).astype(np.int16).tostring(), callback_flag)
 
     def stop_sound(self):
