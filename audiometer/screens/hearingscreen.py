@@ -43,6 +43,7 @@ class HearingScreen(Screen):
     def test_thread(self):
         #Do test
         self.audiometer.test.start_test_sequence()
+        self.audiometer.test.stop.clear()
         #Leave page
         self.screen_manager.current = 'demo'
 
