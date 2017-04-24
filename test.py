@@ -45,7 +45,7 @@ def main(argv):
 
     elif channels == 4:
         print "right muted"
-        audio_controller.play_sound(frequencies=[(400,.05),(0,0),(400,.1),(0,0)], duration=2)
+        audio_controller.play_sound(frequencies=[(400,.5),(0,0),(400,.1),(0,0)], duration=2)
         sleep(2)
 	audio_controller.stop_sound()
 
