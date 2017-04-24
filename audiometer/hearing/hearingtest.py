@@ -133,6 +133,7 @@ class HearingTest:
                 
             time.sleep(1)
 
+        self.buttonPressed = False
         return amp
 
     def button_press(self=None, instance=None):
