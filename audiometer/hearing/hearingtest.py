@@ -8,15 +8,16 @@ class HearingTest:
         self.audiometer = kwargs['audiometer']
         self.audio_controller = self.audiometer.audio_controller
         self.test_freqs = [250, 500, 1000, 2000, 4000, 8000]
+        self.stop = threading.Event()
+
+    def start_test_sequence(self=None, instance=None):
+        self.buttonPressed = False
+        self.resultsJSON = None
         self.leftThresholds = []
         self.leftBoneThresholds = []
         self.rightThresholds = []
         self.rightBoneThresholds = []
-        self.buttonPressed = False
-        self.stop = threading.Event()
-        self.resultsJSON = None
 
-    def start_test_sequence(self=None, instance=None):
         for freq in self.test_freqs:
             if self.stop.is_set():
                 self.stop_freq()
@@ -147,18 +148,18 @@ class HearingTest:
         #Get soundcard amplitude percentage based on desired decibel level
         amp = self.getSoundcardAmp(freq, amp)
             
-        if side:
-            #Left side
-            if not bone:
-                self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
-            else:
-                self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
-        else:
-            #Right side
-            if not bone:
-                self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
-            else:
-                self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
+        # if side:
+        #     #Left side
+        #     if not bone:
+        #         self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
+        #     else:
+        #         self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
+        # else:
+        #     #Right side
+        #     if not bone:
+        #         self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
+        #     else:
+        #         self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
             
     
     def stop_freq(self):
