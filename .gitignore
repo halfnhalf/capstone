@@ -3,3 +3,5 @@ audiostream/
 .DS_Store
 *.swp
 *.pyc
+*.png
+/*.json
