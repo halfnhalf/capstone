@@ -49,7 +49,7 @@ class HearingTest:
                 self.print_thresholds()
                 return
             if threshold > 0.4:
-                self.rightBoneThresholds.append(self.find_threshold(test_freqs[1], False, True))
+                self.rightBoneThresholds.append(self.find_threshold(test_freqs[i], False, True))
             else:
                 self.rightBoneThresholds.append(None)
 
