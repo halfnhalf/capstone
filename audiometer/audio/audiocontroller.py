@@ -1,7 +1,7 @@
 import tone
 import pyaudio
 import sounddevice as sd
-from time import sleep
+import time 
 from sys import platform
 
 class AudioController:
@@ -32,11 +32,13 @@ class AudioController:
         if platform == "linux" or platform == "linux2":
             with sd.OutputStream(
                 samplerate = tone.RATE,
+                blocksize  = tone.BUFSIZE,
                 channels   = sounds.num_channels,
                 dtype      = 'int16',
                 device     = 4,
-                callback   = sounds.callback) as AudioController.stream:
-                sleep(2)
+                callback   = sounds.callback) as stream:
+                while(stream.active):
+                    time.sleep(.1)
         else:
             AudioController.stream = self.p.open(
                 format=pyaudio.get_format_from_width(2),
