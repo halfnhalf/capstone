@@ -92,13 +92,12 @@ class HearingTest:
             print "playing tone. amp: " + str(amp)
             self.play_freq(freq, amp, side, bone)
             time.sleep(2)
-            # self.stop_freq()
             if self.buttonPressed:
                 print "Found button press!"
                 time.sleep(1)
                 break
 
-            amp = amp + 10
+            amp = amp + 5
             if amp > 120:
                 amp = 120
                 time.sleep(1)
@@ -126,7 +125,7 @@ class HearingTest:
                 time.sleep(1)
                 break
             print "Found button press!"
-            amp = amp - 20
+            amp = amp - 10
             if amp < 0:
                 amp = 0
                 break
@@ -180,7 +179,10 @@ class HearingTest:
 
 
     def getSoundcardAmp(self, freq, desiredAmp):
-        return math.exp(.115*desiredAmp)*.0003
+        ret = math.exp(.115*desiredAmp)*.0003
+        if ret > 1:
+            ret = 1
+        return ret
 
     def getRelativeAmp(self, freq, desiredAmp):
         thresholdCurve = {250:17, 500:6, 1000:4.2, 2000:1, 4000:-3.9, 8000:15.3}
