@@ -6,9 +6,9 @@ import numpy as np
 import sounddevice as sd
 
 #sampling rate, Hz, must be integer
-RATE = 44100#22050#22050*2
+RATE = 22050*2
 #how large we want our pcm chunks to be
-BUFSIZE = 246*20
+BUFSIZE = 256*40
 SAMPWIDTH = 2
 MAX_AMP = float(int((2 ** (SAMPWIDTH* 8)) / 2) - 1)
 
