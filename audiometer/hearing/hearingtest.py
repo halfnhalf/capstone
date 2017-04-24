@@ -174,9 +174,10 @@ class HearingTest:
         print "Right Air Conduction: " + str(self.rightThresholds)
         print "Left Bone Conduction: " + str(self.leftBoneThresholds)
         print "Right Bone Conduction: " + str(self.rightBoneThresholds)
-        self.resultsJSON = json.dumps([{'left':[{'air':self.leftThresholds}, {'bone':self.leftBoneThresholds}]}, \
-                                        {'right' : [{'air':self.rightThresholds}, {'bone':self.rightBoneThresholds}]}])
-        print(self.resultsJSON)
+        with open('test.json', 'w') as outfile:
+            json.dump([{'left':[{'air':self.leftThresholds}, {'bone':self.leftBoneThresholds}]}, \
+                       {'right' : [{'air':self.rightThresholds}, {'bone':self.rightBoneThresholds}]}], outfile)
+
 
     def getSoundcardAmp(self, freq, desiredAmp):
         return math.exp(.115*desiredAmp)*.0003
