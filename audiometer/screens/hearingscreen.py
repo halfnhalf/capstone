@@ -4,6 +4,7 @@ from kivy.uix.button import Button
 from kivy.base import runTouchApp
 from kivy.uix.boxlayout import BoxLayout
 from audiometer.hearing.hearingtest import HearingTest
+from kivy.uix.floatlayout import FloatLayout
 import threading
 
 class HearingScreen(Screen):
@@ -14,14 +15,22 @@ class HearingScreen(Screen):
         self.screen_manager = self.audiometer.root
         self.audiometer.test = HearingTest(audiometer=self.audiometer)
 
-        self.layout = BoxLayout(orientation='vertical')
-        self.heard_button = Button(text="I hear it!", font_size=50)
-        self.start_button = Button(text="Start Test!", font_size=50)
+        self.layout = FloatLayout()
+        self.heard_button = Button(text="I hear it!", font_size=50,background_color = (1,1,0,1), size_hint=(.4, .4),pos = (410,250))
+        self.start_button = Button(text="Start Test!", font_size=50, background_color = (0,1,0,1), size_hint=(.4, .4),pos = (70,250))
+        back= Button(text = 'Back',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (230,100))
+        back.bind(on_press=self.back)
+
+        home = Button(text="Home", font_size = 20, size_hint=(.2, .1),background_color = (1,0,0,1),pos = (410,100))
+        home.bind(on_press=self.home)
+
         self.heard_button.bind(on_press=self.on_heard_press)
         self.start_button.bind(on_press=self.on_start_press)
         self.layout.add_widget(self.start_button)
         self.layout.add_widget(self.heard_button)
-        self.add_widget(self.layout)
+        self.layout.add_widget(back)
+        self.layout.add_widget(home)
+        self.add_widget(self.layout)  
 
     def on_start_press(self, instance):
         #Start thread with test
@@ -45,19 +54,12 @@ class HearingScreen(Screen):
         self.audiometer.test.start_test_sequence()
         self.audiometer.test.stop.clear()
         #Leave page
+        self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
+        self.screen_manager.current = 'results'
+
+    def back(self, instance):
+        self.screen_manager.current = 'instruction'
+
+    def home(self, instance):
         self.screen_manager.current = 'demo'
 
-
-
-
-#dropdown = DropDown()
-#for index in range(10):
-#	btn = Button(text='Value %d' %index, size_hint_y=None, height = 44)
-#	btn.bind(on_release = lambda btn: dropdown.select(btn.text))
-#	dropdown.add_widget(btn)
-#mainbutton = Button(text = 'hello', size_hint=(None, None))
-#mainbutton.bind(on_release=dropdown.open)
-#dropdown.bind(on_select =lambda instance, x: setattr(mainbutton, 'text', x))
-
-#if __name__ == '__main__':
-#runTouchApp(mainbutton)
