@@ -6,6 +6,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.core.window import Window
 from kivy.app import runTouchApp
 from kivy.uix.label import Label
+from kivy.uix.image import Image
 
 
 class InstructionScreen(Screen):

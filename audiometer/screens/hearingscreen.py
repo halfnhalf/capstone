@@ -21,7 +21,7 @@ class HearingScreen(Screen):
         back= Button(text = 'Back',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (230,100))
         back.bind(on_press=self.back)
 
-        home = Button(text="Home", font_size = 20, size_hint=(.2, .1),background_color = (0,0,1,1),pos = (410,100))
+        home = Button(text="Home", font_size = 20, size_hint=(.2, .1),background_color = (1,0,0,1),pos = (410,100))
         home.bind(on_press=self.home)
 
         self.heard_button.bind(on_press=self.on_heard_press)

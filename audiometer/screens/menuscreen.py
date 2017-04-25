@@ -9,20 +9,20 @@ class MenuScreen(Screen):
         self.screen_manager = self.audiometer.root
 
         layout = GridLayout(cols=3)
-        go_to_demo_button = Button(text="Home", font_size=40)
+        go_to_demo_button = Button(text="Home", font_size=40, background_color = (1,.9,0,1))
 
-        go_to_hearing_button = Button(text="hearing", font_size = 40)
-        go_to_results_button = Button(text="results", font_size=40)
-        go_to_testresults_button = Button(text="testresults", font_size=40)
+        go_to_hearing_button = Button(text="Take Hearing Test", font_size = 30, background_color = (1,.9,0,1))
+        #go_to_results_button = Button(text="results", font_size=40)
+        go_to_testresults_button = Button(text="Test Results", font_size=35, background_color = (1,.9,0,1))
 
         go_to_demo_button.bind(on_press=self.go_to_demo)
         go_to_hearing_button.bind(on_press=self.go_to_hearing)
-        go_to_results_button.bind(on_press=self.go_to_results)
+        #go_to_results_button.bind(on_press=self.go_to_results)
         go_to_testresults_button.bind(on_press=self.go_to_testresults)
 
         layout.add_widget(go_to_demo_button)
         layout.add_widget(go_to_hearing_button)
-        layout.add_widget(go_to_results_button)
+        #layout.add_widget(go_to_results_button)
         layout.add_widget(go_to_testresults_button)
 
         self.add_widget(layout)
@@ -33,8 +33,8 @@ class MenuScreen(Screen):
     def go_to_hearing(self, instance):
         self.screen_manager.current = 'hearing'
 
-    def go_to_results(self, instance):
-        self.screen_manager.current = 'results'
+    #def go_to_results(self, instance):
+     #   self.screen_manager.current = 'results'
 
     def go_to_testresults(self, instance):
         self.screen_manager.current = 'testresults'    
