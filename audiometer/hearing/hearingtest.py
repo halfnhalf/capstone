@@ -151,13 +151,13 @@ class HearingTest:
         amp = self.getSoundcardAmp(freq, amp)
             
         if side:
-            Left side
+            #Left side
            if not bone:
                 self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
             else:
                 self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
         else:
-            Right side
+            #Right side
             if not bone:
                 self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
             else:

@@ -8,8 +8,9 @@ class MenuScreen(Screen):
         self.audiometer = kwargs['audiometer']
         self.screen_manager = self.audiometer.root
 
-        layout = GridLayout(cols=4)
-        go_to_demo_button = Button(text="demo", font_size=40)
+        layout = GridLayout(cols=3)
+        go_to_demo_button = Button(text="Home", font_size=40)
+
         go_to_hearing_button = Button(text="hearing", font_size = 40)
         go_to_results_button = Button(text="results", font_size=40)
         go_to_testresults_button = Button(text="testresults", font_size=40)
@@ -37,6 +38,3 @@ class MenuScreen(Screen):
 
     def go_to_testresults(self, instance):
         self.screen_manager.current = 'testresults'    
-
-    #def go_to_hearig(self, instance):
-    
