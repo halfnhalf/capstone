@@ -1,34 +1,30 @@
 {
 "air":{	
-	"Left Ear": [{
-			"Frequencies": [250, 500, 1000, 2000, 4000, 8000],
+	"Left Ear": {
 			"decibels": [10, 30, 20, 10, 30, 20]
 		}
 
-	],
+	,
 
-	"Right Ear": [{
-			"Frequencies": [250, 500, 1000, 2000, 4000, 8000],
-			"decibels": [30, 10, 60, 40, 50, 20]
+	"Right Ear": {
+			"decibels": [15, 11, 18, 31, 23, 44]
 		}
 
-	]
+	
 },
 
 "bone":{	
-	"Left Ear": [{
-			"Frequencies": [250, 500, 1000, 2000, 4000, 8000],
+	"Left Ear": {
 			"decibels": [10, 30, 20, 10, 30, 20]
 		}
 
-	],
+	,
 
-	"Right Ear": [{
-			"Frequencies": [250, 500, 1000, 2000, 4000, 8000],
-			"decibels": [50, 40, 30, 20, 10, 40]
+	"Right Ear": {
+			"decibels": [15, 11, 18, 31, 23, 44]
 		}
 
-	]
+
 }
 
 }

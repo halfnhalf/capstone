@@ -149,18 +149,18 @@ class HearingTest:
         #Get soundcard amplitude percentage based on desired decibel level
         amp = self.getSoundcardAmp(freq, amp)
             
-        if side:
+        #if side:
             #Left side
-            if not bone:
-                self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
-            else:
-                self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
-        else:
+           # if not bone:
+                #self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
+            #else:
+                #self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
+        #else:
             #Right side
-            if not bone:
-                self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
-            else:
-                self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
+            #if not bone:
+                #self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
+            #else:
+                #self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
             
     
     def stop_freq(self):
@@ -175,11 +175,9 @@ class HearingTest:
         print "Right Air Conduction: " + str(self.rightThresholds)
         print "Left Bone Conduction: " + str(self.leftBoneThresholds)
         print "Right Bone Conduction: " + str(self.rightBoneThresholds)
-        with open('test.json', 'w') as outfile:
-            json.dump([{'left':[{'air':self.leftThresholds}, {'bone':self.leftBoneThresholds}]}, \
-                       {'right' : [{'air':self.rightThresholds}, {'bone':self.rightBoneThresholds}]}], outfile)
-
-
+        with open('current_audiogram.json', 'w') as outfile:
+           json.dump({"air":{"Left Ear": {"decibels": self.leftThresholds},"Right Ear": {"decibels": self.rightThresholds}}, \
+           "bone":{"Left Ear":{"decibels": self.leftBoneThresholds},"Right Ear": {"decibels": self.rightBoneThresholds}}}, outfile)
     def getSoundcardAmp(self, freq, desiredAmp):
         ret = math.exp(.115*desiredAmp)*.0003
         if ret > 1:
