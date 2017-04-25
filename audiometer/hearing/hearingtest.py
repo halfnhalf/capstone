@@ -19,40 +19,40 @@ class HearingTest:
         self.rightThresholds = [10,10,10,10,10,10]
         self.rightBoneThresholds = [10,10,10,10,10,10]
 
-        for freq in self.test_freqs:
-            if self.stop.is_set():
-                self.stop_freq()
-                self.print_thresholds()
-                return
-            self.leftThresholds.append(self.find_threshold(freq, True, False))
-            
-        for freq in self.test_freqs:
-            if self.stop.is_set():
-                self.stop_freq()
-                self.print_thresholds()
-                return
-            self.rightThresholds.append(self.find_threshold(freq, False, False))
-            
-        #Bone conduction if needed
-        for i, threshold in enumerate(self.leftThresholds):
-            if self.stop.is_set():
-                self.stop_freq()
-                self.print_thresholds()
-                return
-            if threshold > 0.4:
-                self.leftBoneThresholds.append(self.find_threshold(test_freqs[i], True, True))
-            else:
-                self.leftBoneThresholds.append(None)
+        #for freq in self.test_freqs:
+        #    if self.stop.is_set():
+        #        self.stop_freq()
+        #        self.print_thresholds()
+        #        return
+        #    self.leftThresholds.append(self.find_threshold(freq, True, False))
+        #    
+        #for freq in self.test_freqs:
+        #    if self.stop.is_set():
+        #        self.stop_freq()
+        #        self.print_thresholds()
+        #        return
+        #    self.rightThresholds.append(self.find_threshold(freq, False, False))
+        #    
+        ##Bone conduction if needed
+        #for i, threshold in enumerate(self.leftThresholds):
+        #    if self.stop.is_set():
+        #        self.stop_freq()
+        #        self.print_thresholds()
+        #        return
+        #    if threshold > 0.4:
+        #        self.leftBoneThresholds.append(self.find_threshold(test_freqs[i], True, True))
+        #    else:
+        #        self.leftBoneThresholds.append(None)
 
-        for i, threshold in enumerate(self.rightThresholds):
-            if self.stop.is_set():
-                self.stop_freq()
-                self.print_thresholds()
-                return
-            if threshold > 0.4:
-                self.rightBoneThresholds.append(self.find_threshold(test_freqs[i], False, True))
-            else:
-                self.rightBoneThresholds.append(None)
+        #for i, threshold in enumerate(self.rightThresholds):
+        #    if self.stop.is_set():
+        #        self.stop_freq()
+        #        self.print_thresholds()
+        #        return
+        #    if threshold > 0.4:
+        #        self.rightBoneThresholds.append(self.find_threshold(test_freqs[i], False, True))
+        #    else:
+        #        self.rightBoneThresholds.append(None)
 
         self.print_thresholds()
 
@@ -154,7 +154,7 @@ class HearingTest:
             #Left side
            if not bone:
                 self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
-            else:
+           else:
                 self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
         else:
             #Right side

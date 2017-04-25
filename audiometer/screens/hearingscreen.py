@@ -54,8 +54,8 @@ class HearingScreen(Screen):
         self.audiometer.test.start_test_sequence()
         self.audiometer.test.stop.clear()
         #Leave page
-        #self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
-        self.screen_manager.current = 'demo'
+        self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
+        self.screen_manager.current = 'results'
 
     def back(self, instance):
         self.screen_manager.current = 'instruction'
