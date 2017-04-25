@@ -1,5 +1,5 @@
 from menuscreen import MenuScreen
-from demoscreen import DemoScreen
+from demoscreen import HomeScreen
 from hearingscreen import HearingScreen
 from resultsscreen import ResultsScreen
 from testresultsscreen import TestResultsScreen

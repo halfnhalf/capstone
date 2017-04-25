@@ -51,4 +51,4 @@ class TestResultsScreen(Screen):
         self.screen_manager.current = 'menu'
 
     def home(self, instance):
-        self.screen_manager.current = 'demo'
+        self.screen_manager.current = 'home'

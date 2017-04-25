@@ -28,7 +28,7 @@ class MenuScreen(Screen):
         self.add_widget(layout)
 
     def go_to_demo(self, instance):
-        self.screen_manager.current = 'demo'
+        self.screen_manager.current = 'home'
 
     def go_to_hearing(self, instance):
         self.screen_manager.current = 'hearing'
