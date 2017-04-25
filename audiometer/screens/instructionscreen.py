@@ -18,12 +18,12 @@ class InstructionScreen(Screen):
         with open("Instruction.txt") as file:
             contents = file.read()
         print contents
-        l = Label(text = contents)
+        l = Label(text = contents, font_size = 20)
 
         
-        back= Button(text = 'Back',size_hint=(.2, .1),font_size = 20,pos = (240,100))
+        back= Button(text = 'Back',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,0.8), pos = (230,100))
         back.bind(on_press=self.back)
-        start= Button(text = 'Next',size_hint=(.2, .1),font_size = 20,pos = (400,100))
+        start= Button(text = 'Next',size_hint=(.2, .1),font_size = 20,background_color = (0,1,0,2), pos = (410,100))
         start.bind(on_press=self.start)
 
 
