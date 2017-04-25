@@ -1,6 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
-from kivy.uix.gridlayout import GridLayout
+from kivy.uix.floatlayout import FloatLayout
 
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
@@ -8,12 +8,12 @@ class MenuScreen(Screen):
         self.audiometer = kwargs['audiometer']
         self.screen_manager = self.audiometer.root
 
-        layout = GridLayout(cols=3)
-        go_to_demo_button = Button(text="Home", font_size=40, background_color = (1,.9,0,1))
+        layout = FloatLayout()
+        go_to_demo_button = Button(text="Home", font_size=40, size_hint=(.25, .5),background_color = (1,.9,0,1),pos = (60,120))
 
-        go_to_hearing_button = Button(text="Take Hearing Test", font_size = 30, background_color = (1,.9,0,1))
+        go_to_hearing_button = Button(text="Take Hearing Test", font_size = 25, size_hint=(.25, .5), background_color = (1,.9,0,1),pos = (300, 120))
         #go_to_results_button = Button(text="results", font_size=40)
-        go_to_testresults_button = Button(text="Test Results", font_size=35, background_color = (1,.9,0,1))
+        go_to_testresults_button = Button(text="Test Results", font_size=30, size_hint=(.25, .5), background_color = (1,.9,0,1),pos = (540,120))
 
         go_to_demo_button.bind(on_press=self.go_to_demo)
         go_to_hearing_button.bind(on_press=self.go_to_hearing)

@@ -21,8 +21,8 @@ class ResultsScreen(Screen):
         self.screen_manager = self.audiometer.root
         self.filename = kwargs['filename']
         self.layout = FloatLayout(size=(800, 480))
-        test_button = Button(text="back", size_hint = (1,0.25), pos = (0,400), font_size = 20)
-        test_button.bind(on_press=self.go_to_menu)
+        test_button = Button(text="Home", size_hint = (0.2,0.1), pos = (320,20), font_size = 20)
+        test_button.bind(on_press=self.go_to_demo)
         self.air_picture = None
         self.bone_picture = None
         self.layout.add_widget(test_button)
@@ -58,7 +58,7 @@ class ResultsScreen(Screen):
         air_graph.plot(air_left_x,air_left_y, 'bx-', markersize = 12)
         air_graph.plot(air_right_x,air_right_y, 'ro-', markersize =12)
         plt.savefig('Air Conduction.png')
-        self.air_picture = Image(source='Air Conduction.png', size_hint = (0.5,1), page = 0)
+        self.air_picture = Image(source='Air Conduction.png', size_hint = (0.48,1), pos = (10, 80))
 
         ## plots bone conduction
         bone = plt.figure()
@@ -70,7 +70,7 @@ class ResultsScreen(Screen):
         bone_graph.plot(bone_left_x,bone_left_y, 'bx-', markersize = 12)
         bone_graph.plot(bone_right_x,bone_right_y, 'ro-', markersize =12)
         plt.savefig('Bone Conduction.png')
-        self.bone_picture = Image(source='Bone Conduction.png', size_hint = (0.5,1), pos = (410,0), page = 1)
+        self.bone_picture = Image(source='Bone Conduction.png', size_hint = (0.48,1), pos = (405,80))
 
         self.layout.add_widget(self.air_picture)
         self.air_picture.reload()
@@ -78,8 +78,8 @@ class ResultsScreen(Screen):
         self.bone_picture.reload()
         self.screen_manager.current = 'results'
 
-    def go_to_menu(self, instance):
-        self.screen_manager.current = 'menu'
+    def go_to_demo(self, instance):
+        self.screen_manager.current = 'demo'
 
 
 	
