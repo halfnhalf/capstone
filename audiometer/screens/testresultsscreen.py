@@ -30,7 +30,9 @@ class TestResultsScreen(Screen):
 
 
     def go_to_results_1(self, instance):
-        self.audiometer.root.get_screen('results').result_button_pressed('test2.json')
+        self.audiometer.root.get_screen('results').result_button_pressed('test.json')
+        self.screen_manager.current = 'results'
 
     def go_to_results_2(self, instance):
-        self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
+        self.audiometer.root.get_screen('results').result_button_pressed('test2.json')
+        self.screen_manager.current = 'results'

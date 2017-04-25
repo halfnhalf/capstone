@@ -2,6 +2,7 @@ import time
 import threading
 import json
 import math
+import os
 
 class HearingTest:
     def __init__(self, **kwargs):
@@ -13,10 +14,10 @@ class HearingTest:
     def start_test_sequence(self=None, instance=None):
         self.buttonPressed = False
         self.resultsJSON = None
-        self.leftThresholds = []
-        self.leftBoneThresholds = []
-        self.rightThresholds = []
-        self.rightBoneThresholds = []
+        self.leftThresholds = [10,10,10,10,10,10]
+        self.leftBoneThresholds = [10,10,10,10,10,10]
+        self.rightThresholds = [10,10,10,10,10,10]
+        self.rightBoneThresholds = [10,10,10,10,10,10]
 
         for freq in self.test_freqs:
             if self.stop.is_set():
@@ -149,18 +150,18 @@ class HearingTest:
         #Get soundcard amplitude percentage based on desired decibel level
         amp = self.getSoundcardAmp(freq, amp)
             
-        #if side:
-            #Left side
-           # if not bone:
-                #self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
-            #else:
-                #self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
-        #else:
-            #Right side
-            #if not bone:
-                #self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
-            #else:
-                #self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
+        if side:
+            Left side
+           if not bone:
+                self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
+            else:
+                self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
+        else:
+            Right side
+            if not bone:
+                self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
+            else:
+                self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
             
     
     def stop_freq(self):
@@ -175,7 +176,7 @@ class HearingTest:
         print "Right Air Conduction: " + str(self.rightThresholds)
         print "Left Bone Conduction: " + str(self.leftBoneThresholds)
         print "Right Bone Conduction: " + str(self.rightBoneThresholds)
-        with open('current_audiogram.json', 'w') as outfile:
+        with open(os.path.join(os.path.dirname(__file__),'../../data/current_audiogram.json'), 'w') as outfile:
            json.dump({"air":{"Left Ear": {"decibels": self.leftThresholds},"Right Ear": {"decibels": self.rightThresholds}}, \
            "bone":{"Left Ear":{"decibels": self.leftBoneThresholds},"Right Ear": {"decibels": self.rightBoneThresholds}}}, outfile)
     def getSoundcardAmp(self, freq, desiredAmp):
