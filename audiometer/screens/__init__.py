@@ -1,8 +1,8 @@
 from menuscreen import MenuScreen
-from demoscreen import DemoScreen
+from demoscreen import HomeScreen
 from hearingscreen import HearingScreen
 from resultsscreen import ResultsScreen
 from testresultsscreen import TestResultsScreen
 from instructionscreen import InstructionScreen
 
-__all__ = ['menuscreen', 'demoscreen', 'hearingscreen', 'resultsscreen','testresultsscreen', 'instructionscreen']
+__all__ = ['menuscreen', 'homescreen', 'hearingscreen', 'resultsscreen','testresultsscreen', 'instructionscreen']

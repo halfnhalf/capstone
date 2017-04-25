@@ -34,7 +34,7 @@ class InstructionScreen(Screen):
         self.add_widget(self.layout)
 
     def back(self, instance):
-        self.screen_manager.current = 'demo'
+        self.screen_manager.current = 'home'
 
     def start(self, instance):
         self.screen_manager.current = 'hearing'

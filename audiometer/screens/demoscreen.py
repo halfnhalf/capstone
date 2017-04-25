@@ -13,15 +13,15 @@ from kivy.uix.image import Image
 
 import threading
 
-class DemoScreen(Screen):
+class HomeScreen(Screen):
     def __init__(self, **kwargs):
-        super(DemoScreen, self).__init__(**kwargs)
+        super(HomeScreen, self).__init__(**kwargs)
         self.audiometer = kwargs['audiometer']
         self.audio_controller = self.audiometer.audio_controller
         self.screen_manager = self.audiometer.root
         
         
-        self.rams = Image(source='vcu.png', size_hint = (0.25,0.25),pos = (230,330))
+        self.rams = Image(source='./images/vcu.png', size_hint = (0.25,0.25),pos = (230,330))
         
 
         layout = FloatLayout(size = (800,480))

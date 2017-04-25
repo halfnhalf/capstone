@@ -61,5 +61,5 @@ class HearingScreen(Screen):
         self.screen_manager.current = 'instruction'
 
     def home(self, instance):
-        self.screen_manager.current = 'demo'
+        self.screen_manager.current = 'home'
 
