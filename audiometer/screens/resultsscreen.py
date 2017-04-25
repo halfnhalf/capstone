@@ -27,11 +27,13 @@ class ResultsScreen(Screen):
         self.bone_picture = None
         self.layout.add_widget(test_button)
         self.add_widget(self.layout)
+        self.result_button_pressed(self.filename)
 
     def result_button_pressed(self, filename):
-        if self.air_picture and self.bone_picture:
+        if self.air_picture is not None and self.bone_picture is not None:
             self.layout.remove_widget(self.air_picture)
             self.layout.remove_widget(self.bone_picture)
+
         self.filename = filename
         with open(os.path.join(os.path.dirname(__file__),'../../data/' + self.filename)) as json_data:
                 results = json.load(json_data)
@@ -76,7 +78,6 @@ class ResultsScreen(Screen):
         self.air_picture.reload()
         self.layout.add_widget(self.bone_picture)
         self.bone_picture.reload()
-        self.screen_manager.current = 'results'
 
     def go_to_demo(self, instance):
         self.screen_manager.current = 'demo'

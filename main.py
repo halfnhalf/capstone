@@ -27,7 +27,7 @@ class Audiometer(App):
             audiometer=Audiometer))
         Audiometer.root.add_widget(ResultsScreen(
             name='results',
-            filename = 'test2.json',
+            filename = 'current_audiogram.json',
             audiometer=Audiometer))
         Audiometer.root.add_widget(TestResultsScreen(
             name='testresults',

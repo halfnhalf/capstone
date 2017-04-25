@@ -33,6 +33,7 @@ class DemoScreen(Screen):
         go_to_hearing_button= Button(text = 'Take your test!',size_hint=(.5, .2),background_color = (0,1,0,2),font_size = 20,pos = (205,210))
         go_to_hearing_button.bind(on_press=self.go_to_instruction)
 
+        #background_normal='images/button_normal.png'
         result1= Button(text = 'Result 1',size_hint=(.15, .05),background_color = (0,1,0,1),font_size = 15,pos = (340,140))
         result1.bind(on_press=self.go_to_results_1)
 
@@ -65,5 +66,5 @@ class DemoScreen(Screen):
         self.screen_manager.current = 'results'
 
     def go_to_results_2(self, instance): #<--------------------
-        self.audiometer.root.get_screen('results').result_button_pressed('test.json')
+        self.audiometer.root.get_screen('results').result_button_pressed('test2.json')
         self.screen_manager.current = 'results'

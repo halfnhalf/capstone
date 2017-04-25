@@ -28,10 +28,9 @@ class HearingScreen(Screen):
         self.start_button.bind(on_press=self.on_start_press)
         self.layout.add_widget(self.start_button)
         self.layout.add_widget(self.heard_button)
-        self.add_widget(self.layout)
-        self.add_widget(back)
-        self.add_widget(home)
-
+        self.layout.add_widget(back)
+        self.layout.add_widget(home)
+        self.add_widget(self.layout)  
 
     def on_start_press(self, instance):
         #Start thread with test
@@ -55,7 +54,8 @@ class HearingScreen(Screen):
         self.audiometer.test.start_test_sequence()
         self.audiometer.test.stop.clear()
         #Leave page
-        self.screen_manager.current = 'demo'
+        self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
+        self.screen_manager.current = 'results'
 
     def back(self, instance):
         self.screen_manager.current = 'instruction'
