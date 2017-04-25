@@ -9,7 +9,7 @@ class MenuScreen(Screen):
         self.screen_manager = self.audiometer.root
 
         layout = GridLayout(cols=3)
-        go_to_demo_button = Button(text="demo", font_size=40)
+        go_to_demo_button = Button(text="Home", font_size=40)
         go_to_hearing_button = Button(text="hearing", font_size = 40)
         go_to_results_button = Button(text="results", font_size=40)
 
@@ -31,6 +31,3 @@ class MenuScreen(Screen):
 
     def go_to_results(self, instance):
         self.screen_manager.current = 'results'
-
-    #def go_to_hearig(self, instance):
-    

@@ -16,12 +16,12 @@ class HearingScreen(Screen):
         self.audiometer.test = HearingTest(audiometer=self.audiometer)
 
         self.layout = FloatLayout()
-        self.heard_button = Button(text="I hear it!", font_size=50, size_hint=(.4, .4),pos = (400,250))
-        self.start_button = Button(text="Start Test!", font_size=50, size_hint=(.4, .4),pos = (80,250))
-        back= Button(text = 'Back',size_hint=(.2, .1),font_size = 20,pos = (240,100))
+        self.heard_button = Button(text="I hear it!", font_size=50,background_color = (1,1,0,1), size_hint=(.4, .4),pos = (410,250))
+        self.start_button = Button(text="Start Test!", font_size=50, background_color = (0,1,0,1), size_hint=(.4, .4),pos = (70,250))
+        back= Button(text = 'Back',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (230,100))
         back.bind(on_press=self.back)
 
-        home = Button(text="Home", font_size = 20, size_hint=(.2, .1),pos = (400,100))
+        home = Button(text="Home", font_size = 20, size_hint=(.2, .1),background_color = (0,0,1,1),pos = (410,100))
         home.bind(on_press=self.home)
 
         self.heard_button.bind(on_press=self.on_heard_press)
