@@ -80,7 +80,7 @@ class ResultsScreen(Screen):
         self.bone_picture.reload()
 
     def go_to_demo(self, instance):
-        self.screen_manager.current = 'demo'
+        self.screen_manager.current = 'home'
 
 
 	

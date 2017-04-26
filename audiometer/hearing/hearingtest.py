@@ -19,22 +19,22 @@ class HearingTest:
         self.rightThresholds = [10,10,10,10,10,10]
         self.rightBoneThresholds = [10,10,10,10,10,10]
 
-        #for freq in self.test_freqs:
+        # for freq in self.test_freqs:
         #    if self.stop.is_set():
         #        self.stop_freq()
         #        self.print_thresholds()
         #        return
         #    self.leftThresholds.append(self.find_threshold(freq, True, False))
-        #    
-        #for freq in self.test_freqs:
+           
+        # for freq in self.test_freqs:
         #    if self.stop.is_set():
         #        self.stop_freq()
         #        self.print_thresholds()
         #        return
         #    self.rightThresholds.append(self.find_threshold(freq, False, False))
-        #    
-        ##Bone conduction if needed
-        #for i, threshold in enumerate(self.leftThresholds):
+           
+        # #Bone conduction if needed
+        # for i, threshold in enumerate(self.leftThresholds):
         #    if self.stop.is_set():
         #        self.stop_freq()
         #        self.print_thresholds()
@@ -44,7 +44,7 @@ class HearingTest:
         #    else:
         #        self.leftBoneThresholds.append(None)
 
-        #for i, threshold in enumerate(self.rightThresholds):
+        # for i, threshold in enumerate(self.rightThresholds):
         #    if self.stop.is_set():
         #        self.stop_freq()
         #        self.print_thresholds()
