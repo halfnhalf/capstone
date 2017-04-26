@@ -31,6 +31,7 @@ class ResultsScreen(Screen):
 
     def result_button_pressed(self, filename):
         if self.air_picture is not None and self.bone_picture is not None:
+            plt.close('all')
             self.layout.remove_widget(self.air_picture)
             self.layout.remove_widget(self.bone_picture)
 
@@ -81,8 +82,3 @@ class ResultsScreen(Screen):
 
     def go_to_demo(self, instance):
         self.screen_manager.current = 'home'
-
-
-	
-
-	
