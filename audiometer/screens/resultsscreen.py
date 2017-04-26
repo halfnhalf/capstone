@@ -41,15 +41,15 @@ class ResultsScreen(Screen):
                 results = json.load(json_data)
                 
             #sets both ear axes for air 
-            air_left_x = [250,500,1000,2000,4000,8000]
+            air_left_x = results['frequencies']
             air_left_y = results['air']['Left Ear']['decibels']
-            air_right_x = [250,500,1000,2000,4000,8000]
+            air_right_x = results['frequencies']
             air_right_y = results['air']['Right Ear']['decibels']
 
             #sets both ear axes for bone
-            bone_left_x = [250,500,1000,2000,4000,8000]
+            bone_left_x = results['frequencies']
             bone_left_y = results['bone']['Left Ear']['decibels']
-            bone_right_x = [250,500,1000,2000,4000,8000]
+            bone_right_x = results['frequencies']
             bone_right_y = results['bone']['Right Ear']['decibels']
 
             ##plots air conduction

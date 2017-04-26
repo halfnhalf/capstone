@@ -192,7 +192,7 @@ class HearingTest:
         print "Right Air Conduction: " + str(self.rightThresholds)
         print "Left Bone Conduction: " + str(self.leftBoneThresholds)
         print "Right Bone Conduction: " + str(self.rightBoneThresholds)
-        jsonObj = {"air":{"Left Ear": {"decibels": self.leftThresholds},"Right Ear": {"decibels": self.rightThresholds}}, \
+        jsonObj = {"frequencies":self.test_freqs, "air":{"Left Ear": {"decibels": self.leftThresholds},"Right Ear": {"decibels": self.rightThresholds}}, \
            "bone":{"Left Ear":{"decibels": self.leftBoneThresholds},"Right Ear": {"decibels": self.rightBoneThresholds}}}
         with open(os.path.join(os.path.dirname(__file__),'../../data/current_audiogram.json'), 'w') as outfile:
            json.dump(jsonObj, outfile)
