@@ -5,6 +5,7 @@ from kivy.base import runTouchApp
 from kivy.uix.boxlayout import BoxLayout
 from audiometer.hearing.hearingtest import HearingTest
 from kivy.uix.floatlayout import FloatLayout
+from kivy.clock import Clock, mainthread
 import threading
 
 class HearingScreen(Screen):
@@ -48,14 +49,18 @@ class HearingScreen(Screen):
     def on_heard_press(self, instance):
         self.audiometer.test.button_press()
 
-
     def test_thread(self):
         #Do test
         self.audiometer.test.start_test_sequence()
         self.audiometer.test.stop.clear()
         #Leave page
+        self.thread_ended_go_to_results()
+
+    @mainthread
+    def thread_ended_go_to_results(self):
         self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
         self.screen_manager.current = 'results'
+
 
     def back(self, instance):
         self.screen_manager.current = 'instruction'
