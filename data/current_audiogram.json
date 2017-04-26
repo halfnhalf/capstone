@@ -1,1 +1,1 @@
-{"bone": {"Right Ear": {"decibels": [10, 10, 10, 10, 10, 10]}, "Left Ear": {"decibels": [10, 10, 10, 10, 10, 10]}}, "air": {"Right Ear": {"decibels": [10, 10, 10, 10, 10, 10]}, "Left Ear": {"decibels": [10, 10, 10, 10, 10, 10]}}}
+{"bone": {"Right Ear": {"decibels": [null]}, "Left Ear": {"decibels": [null]}}, "air": {"Right Ear": {"decibels": [5]}, "Left Ear": {"decibels": [5]}}}

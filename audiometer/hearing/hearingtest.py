@@ -3,6 +3,7 @@ import threading
 import json
 import math
 import os
+import datetime as dt
 
 class HearingTest:
     def __init__(self, **kwargs):
@@ -14,52 +15,58 @@ class HearingTest:
     def start_test_sequence(self=None, instance=None):
         self.buttonPressed = False
         self.resultsJSON = None
-        self.leftThresholds = [10,10,10,10,10,10]
-        self.leftBoneThresholds = [10,10,10,10,10,10]
-        self.rightThresholds = [10,10,10,10,10,10]
-        self.rightBoneThresholds = [10,10,10,10,10,10]
+        self.leftThresholds = [10]*len(self.test_freqs)
+        self.leftBoneThresholds = [10]*len(self.test_freqs)
+        self.rightThresholds = [10]*len(self.test_freqs)
+        self.rightBoneThresholds = [10]*len(self.test_freqs)
 
-        #for freq in self.test_freqs:
-        #    if self.stop.is_set():
-        #        self.stop_freq()
-        #        self.print_thresholds()
-        #        return
-        #    self.leftThresholds.append(self.find_threshold(freq, True, False))
-        #    
-        #for freq in self.test_freqs:
-        #    if self.stop.is_set():
-        #        self.stop_freq()
-        #        self.print_thresholds()
-        #        return
-        #    self.rightThresholds.append(self.find_threshold(freq, False, False))
-        #    
-        ##Bone conduction if needed
-        #for i, threshold in enumerate(self.leftThresholds):
-        #    if self.stop.is_set():
-        #        self.stop_freq()
-        #        self.print_thresholds()
-        #        return
-        #    if threshold > 0.4:
-        #        self.leftBoneThresholds.append(self.find_threshold(test_freqs[i], True, True))
-        #    else:
-        #        self.leftBoneThresholds.append(None)
+        print str(self.leftThresholds)
+        print str(self.rightThresholds)
+        print str(self.rightBoneThresholds)
+        print str(self.leftBoneThresholds)
+        
+        for i, freq in enumerate(self.test_freqs):
+           if self.stop.is_set():
+               self.stop_freq()
+               self.print_thresholds()
+               return
+           self.leftThresholds[i] = self.find_threshold(freq, True, False)
+           
+        for i, freq in enumerate(self.test_freqs):
+           if self.stop.is_set():
+               self.stop_freq()
+               self.print_thresholds()
+               return
+           self.rightThresholds[i] = self.find_threshold(freq, False, False)
+           
+        #Bone conduction if needed
+        for i, threshold in enumerate(self.leftThresholds):
+            print "LENGTH OF LEFT THRESHOLDS: " + str(len(self.leftThresholds))
+            if self.stop.is_set():
+               self.stop_freq()
+               self.print_thresholds()
+               return
+            if threshold > 40:
+                self.leftBoneThresholds[i] = self.find_threshold(test_freqs[i], True, True)
+            else:
+                self.leftBoneThresholds[i] = -20
 
-        #for i, threshold in enumerate(self.rightThresholds):
-        #    if self.stop.is_set():
-        #        self.stop_freq()
-        #        self.print_thresholds()
-        #        return
-        #    if threshold > 0.4:
-        #        self.rightBoneThresholds.append(self.find_threshold(test_freqs[i], False, True))
-        #    else:
-        #        self.rightBoneThresholds.append(None)
+        for i, threshold in enumerate(self.rightThresholds):
+            if self.stop.is_set():
+               self.stop_freq()
+               self.print_thresholds()
+               return
+            if threshold > 40:
+                self.rightBoneThresholds[i] = self.find_threshold(test_freqs[i], False, True)
+            else:
+                self.rightBoneThresholds[i] = -20
 
         self.print_thresholds()
 
     def find_threshold(self, freq, side, bone):
         amps = []
         #Start at 10db below lowest threshold indicated during familiarization
-        lastResponse = 0
+        lastResponse = 30 if bone else 0
         while len(amps) < 5:
             if self.stop.is_set():
                 self.stop_freq()
@@ -149,19 +156,28 @@ class HearingTest:
         amp = 0 if amp < 0 else amp
         #Get soundcard amplitude percentage based on desired decibel level
         amp = self.getSoundcardAmp(freq, amp)
-            
-        if side:
-            #Left side
-           if not bone:
-                self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(freq,0)], duration=2)
-           else:
-                self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0)], duration=2)
+        
+        if bone:
+            whiteNoiseAmp = amp
         else:
-            #Right side
-            if not bone:
-                self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(freq, 0),(freq, amp)], duration=2)
-            else:
-                self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp)], duration=2)
+            whiteNoiseAmp = amp-40 if amp > 40 else 0    
+        
+        #Calibrate relative to MAF Threshold (white noise)
+        whiteNoiseAmp = self.getRelativeAmp(freq, whiteNoiseAmp)
+        whiteNoiseAmp = 0 if whiteNoiseAmp < 0 else whiteNoiseAmp
+        #Get soundcard amplitude percentage based on desired decibel level
+        whiteNoiseAmp = self.getSoundcardAmp(freq, whiteNoiseAmp)
+
+        # if not bone:
+        #     if side:
+        #         self.audio_controller.play_sound(frequencies=[(freq,0),(freq,0),(freq, amp),(-1,whiteNoiseAmp)], duration=2)
+        #     else:
+        #         self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, 0),(-1, whiteNoiseAmp),(freq, amp)], duration=2)
+        # else:
+        #     if side:
+        #         self.audio_controller.play_sound(frequencies=[(freq, amp),(freq,0),(freq, 0),(-1,whiteNoiseAmp)], duration=2)
+        #     else:
+        #         self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp),(-1,whiteNoiseAmp),(freq,0)], duration=2)
             
     
     def stop_freq(self):
@@ -176,9 +192,14 @@ class HearingTest:
         print "Right Air Conduction: " + str(self.rightThresholds)
         print "Left Bone Conduction: " + str(self.leftBoneThresholds)
         print "Right Bone Conduction: " + str(self.rightBoneThresholds)
+        jsonObj = {"air":{"Left Ear": {"decibels": self.leftThresholds},"Right Ear": {"decibels": self.rightThresholds}}, \
+           "bone":{"Left Ear":{"decibels": self.leftBoneThresholds},"Right Ear": {"decibels": self.rightBoneThresholds}}}
         with open(os.path.join(os.path.dirname(__file__),'../../data/current_audiogram.json'), 'w') as outfile:
-           json.dump({"air":{"Left Ear": {"decibels": self.leftThresholds},"Right Ear": {"decibels": self.rightThresholds}}, \
-           "bone":{"Left Ear":{"decibels": self.leftBoneThresholds},"Right Ear": {"decibels": self.rightBoneThresholds}}}, outfile)
+           json.dump(jsonObj, outfile)
+
+        with open(os.path.join(os.path.dirname(__file__),'../../data/' + str(dt.datetime.now()) + '.json'), 'w') as outfile:
+           json.dump(jsonObj, outfile)
+    
     def getSoundcardAmp(self, freq, desiredAmp):
         ret = math.exp(.115*desiredAmp)*.0003
         if ret > 1:

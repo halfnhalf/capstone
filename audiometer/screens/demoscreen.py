@@ -59,6 +59,7 @@ class HomeScreen(Screen):
         self.screen_manager.current = 'menu'
 
     def go_to_instruction(self, instance):
+        self.audiometer.test.test_freqs = [1000]
         self.screen_manager.current = 'instruction'
 
     def go_to_results_1(self, instance): #<--------------------

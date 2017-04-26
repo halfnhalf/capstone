@@ -31,6 +31,7 @@ class MenuScreen(Screen):
         self.screen_manager.current = 'home'
 
     def go_to_hearing(self, instance):
+        self.audiometer.test.test_freqs = [250, 500, 1000, 2000, 4000, 8000]
         self.screen_manager.current = 'hearing'
 
     #def go_to_results(self, instance):
