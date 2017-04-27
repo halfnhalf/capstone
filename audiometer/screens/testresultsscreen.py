@@ -19,7 +19,6 @@ class TestResultsScreen(Screen):
         self.audio_controller = self.audiometer.audio_controller
         self.layout = GridLayout(cols=2)
         self.screen_manager = self.audiometer.root
-        self.filename = kwargs['filename']
         results_1_button = Button(text="result 1", size_hint = (0.35,0.35),background_color = (1,1,0,0.8), font_size = 20, pos = (110,280))
         results_2_button = Button(text="result 2", size_hint = (0.35,0.35), background_color = (0,1,0,0.8), font_size = 20, pos = (420,280))
         results_1_button.bind(on_press=self.go_to_results_1)

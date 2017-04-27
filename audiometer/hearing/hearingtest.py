@@ -15,10 +15,10 @@ class HearingTest:
     def start_test_sequence(self=None, instance=None):
         self.buttonPressed = False
         self.resultsJSON = None
-        self.leftThresholds = [10]*len(self.test_freqs)
-        self.leftBoneThresholds = [10]*len(self.test_freqs)
-        self.rightThresholds = [10]*len(self.test_freqs)
-        self.rightBoneThresholds = [10]*len(self.test_freqs)
+        self.leftThresholds = [-20]*len(self.test_freqs)
+        self.leftBoneThresholds = [-20]*len(self.test_freqs)
+        self.rightThresholds = [-20]*len(self.test_freqs)
+        self.rightBoneThresholds = [-20]*len(self.test_freqs)
 
         print str(self.leftThresholds)
         print str(self.rightThresholds)
