@@ -19,6 +19,7 @@ class TestResultsScreen(Screen):
         self.audio_controller = self.audiometer.audio_controller
         self.layout = GridLayout(cols=2)
         self.screen_manager = self.audiometer.root
+
         self.filename = kwargs['filename']
         result_button_color = (1,1,0,1)
         results_1_button = Button(text="result 1", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,390))
@@ -26,10 +27,6 @@ class TestResultsScreen(Screen):
         results_3_button = Button(text="result 3", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,300))
         results_4_button = Button(text="result 4", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,255))
         results_5_button = Button(text="result 5", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,210))
-
-
-
-
 
         results_1_button.bind(on_release=self.go_to_results_1)
         results_2_button.bind(on_release=self.go_to_results_2)
