@@ -35,6 +35,7 @@ class HearingScreen(Screen):
 
     def on_start_press(self, instance):
         #Start thread with test
+        self.audiometer.test.stop.clear()
         threading.Thread(target=self.test_thread).start()
         self.start_button.funbind('on_press', self.on_start_press)
         self.start_button.fbind('on_press', self.on_stop_press)
@@ -52,12 +53,13 @@ class HearingScreen(Screen):
     def test_thread(self):
         #Do test
         self.audiometer.test.start_test_sequence()
-        self.audiometer.test.stop.clear()
         #Leave page
         self.thread_ended_go_to_results()
 
     @mainthread
     def thread_ended_go_to_results(self):
+        self.on_stop_press(None)
+        self.audiometer.test.stop.clear()
         self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
         self.screen_manager.current = 'results'
 
