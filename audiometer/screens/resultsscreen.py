@@ -146,4 +146,8 @@ class ResultsScreen(Screen):
             print str(e)
 
     def go_to_home(self, instance):
+<<<<<<< HEAD
         self.screen_manager.current = 'home'
+=======
+        self.screen_manager.current = 'home'
+>>>>>>> 93ac26236641cecd71a236e52fed86bc12919483
