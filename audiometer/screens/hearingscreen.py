@@ -31,8 +31,8 @@ class HearingScreen(Screen):
         #self.ece = Image(source='./images/ece.png', size_hint = (0.25,0.25),pos = (580,5))
 
 
-        self.heard_button.bind(on_release=self.on_heard_press)
-        self.start_button.bind(on_release=self.on_start_press)
+        self.heard_button.bind(always_release=self.on_heard_press)
+        self.start_button.bind(always_release=self.on_start_press)
         self.layout.add_widget(self.start_button)
         self.layout.add_widget(self.heard_button)
         self.layout.add_widget(back)
@@ -48,12 +48,14 @@ class HearingScreen(Screen):
         self.start_button.funbind('on_press', self.on_start_press)
         self.start_button.fbind('on_press', self.on_stop_press)
         self.start_button.text = "Stop Test!"
+        self.start_button.background_color = (0,0,1,1)
 
     def on_stop_press(self, instance):
         self.audiometer.test.stop_thread()
         self.start_button.funbind('on_press', self.on_stop_press)
         self.start_button.fbind('on_press', self.on_start_press)
         self.start_button.text = "Start Test!"
+        self.start_button.background_color = (0,1,0,1)
 
     def on_heard_press(self, instance):
         self.audiometer.test.button_press()

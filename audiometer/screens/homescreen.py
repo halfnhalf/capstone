@@ -24,7 +24,7 @@ class HomeScreen(Screen):
         Window.clearcolor = (0,0,0,1)
 
         self.rams = Image(source='./images/vcu.png', size_hint = (0.25,0.25),pos = (230,330))
-        self.ece = Image(source='./images/ece.png', size_hint = (0.1,0.1),pos = (15,420))
+        self.ece = Image(source='./images/ece.png', size_hint = (0.12,0.12),pos = (3,20))
         
 
         layout = FloatLayout(size = (800,480))
@@ -33,8 +33,8 @@ class HomeScreen(Screen):
         #popup.bind(on_release = self.pop1)
 
         vcu = Label(text = 'VCU',color = (1,.8,0,1), font_size = 60,pos = (60,150), outline_color = [0,0,0], outline_width =10)
-        eece = Label(text = 'ELECTRICAL \n& COMPUTER \nENGINEERING', font_size = 15,pos = (-260,205))
-        debug = Button(text = 'Debug', size_hint=(.15, .15),background_color = (1,0,0,0.8),font_size = 20,pos = (20,20))
+        eece = Label(text = 'ELECTRICAL \n& COMPUTER \nENGINEERING', font_size = 15,pos = (-260,-190))
+        #debug = Button(text = 'Debug', size_hint=(.15, .15),background_color = (1,0,0,0.8),font_size = 20,pos = (20,20))
         go_to_hearing_button= Button(text = 'Take Your Test!',size_hint=(.5, .2),background_color = (0,1,0,1) ,font_size = 20,pos = (205,210))
         go_to_hearing_button.bind(on_release=self.go_to_instruction)
 
@@ -42,7 +42,7 @@ class HomeScreen(Screen):
         result1= Button(text = 'Result 1',size_hint=(.17, .07),background_color = (0,1,0,1),font_size = 15,pos = (340,140))
         result1.bind(on_release=self.go_to_results_1)
 
-        result2= Button(text = 'Result 2',size_hint=(.17, .07),background_color = (0,1,0,1),font_size = 15,pos = (340,100))
+        result2= Button(text = 'Result 2',size_hint=(.17, .07),background_color = (0,1,0,1),font_size = 15,pos = (340,90))
         result2.bind(on_release=self.go_to_results_2)
 
 
@@ -52,7 +52,7 @@ class HomeScreen(Screen):
 
         layout.add_widget(go_to_menu_button)
         layout.add_widget(go_to_hearing_button)
-        layout.add_widget(debug)
+        #layout.add_widget(debug)
         layout.add_widget(vcu)
         layout.add_widget(eece)
         layout.add_widget(result1)
