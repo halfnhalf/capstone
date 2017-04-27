@@ -2,6 +2,8 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
+from kivy.uix.behaviors.button import ButtonBehavior
+from kivy.vector import Vector
 
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
@@ -10,11 +12,11 @@ class MenuScreen(Screen):
         self.screen_manager = self.audiometer.root
 
         layout = FloatLayout()
-        go_to_demo_button = Button(text="Home", font_size=40, size_hint=(.25, .5),background_normal = "images/button.png", color = (0,0,0,1), background_color = (1,1,0,1),pos = (60,180))
+        go_to_demo_button = Button(text="Home", font_size=40, size_hint=(.25, .5),background_normal = "images/button.png", color = (0,0,0,1), background_color = (0.9,0.9,0,1),pos = (60,180))
 
-        go_to_hearing_button = Button(text="       Take \nHearing Test", background_color = (1,1,0,1),background_normal = "images/button.png",font_size=30, color = (0,0,0,1), size_hint=(.25, .5),pos = (300, 180))
+        go_to_hearing_button = Button(text="       Take \nHearing Test", background_color = (0.9,0.9,0,1),background_normal = "images/button.png",font_size=30, color = (0,0,0,1), size_hint=(.25, .5),pos = (300, 180))
         #go_to_results_button = Button(text="results", font_size=40)
-        go_to_testresults_button = Button(text="Test Results", background_normal = "images/button.png", font_size=30, color = (0,0,0,1), size_hint=(.25, .5), background_color = (1,1,0,1),pos = (540,180))
+        go_to_testresults_button = Button(text="Test Results", background_normal = "images/button.png", font_size=30, color = (0,0,0,1), size_hint=(.25, .5), background_color = (0.9,0.9,0,1),pos = (540,180))
 
         
 

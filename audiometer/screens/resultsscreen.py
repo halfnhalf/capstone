@@ -1,15 +1,17 @@
 import json
+import glob
+import os
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
+from operator import itemgetter, attrgetter, methodcaller
 from kivy.uix.button import Button
-import os
 from kivy.uix.screenmanager import Screen
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.pagelayout import PageLayout
 from kivy.uix.relativelayout import RelativeLayout
 from kivy.uix.image import Image
-
+from kivy.uix.label import Label
 
 
 class ResultsScreen(Screen):
@@ -19,39 +21,45 @@ class ResultsScreen(Screen):
         self.audio_controller = self.audiometer.audio_controller
         #self.layout = PageLayout(Page = 2)
         self.screen_manager = self.audiometer.root
-        self.layout = FloatLayout(size=(800, 480))
-        test_button = Button(text="Home", background_normal = "images/button.png", background_color = (1,1,0,1),color = (0,0,0,1),size_hint = (0.2,0.1), pos = (320,20), font_size = 20)
+        self.layout = FloatLayout()
+        test_button = Button(text="Home", background_normal = "images/button.png", background_color = (0.9,0.9,0,1),color = (0,0,0,1),size_hint = (0.2,0.1), pos = (320,20), font_size = 20)
         test_button.bind(on_release=self.go_to_home)
+        self.loss = None
         self.air_picture = None
         self.bone_picture = None
         self.layout.add_widget(test_button)
         self.add_widget(self.layout)
-        #self.result_button_pressed(self.filename)
 
     def result_button_pressed(self, filename):
+        #closes all previous widgets in order to display new widgets
         if self.air_picture is not None and self.bone_picture is not None:
             plt.close('all')
             self.layout.remove_widget(self.air_picture)
             self.layout.remove_widget(self.bone_picture)
+
+        if self.loss is not None:
+            self.layout.remove_widget(self.loss)
 
         self.filename = filename
         try:
             with open(os.path.join(os.path.dirname(__file__),'../../data/' + self.filename)) as json_data:
                 results = json.load(json_data)
 
-
             #sets both ear axes for air
             check = None
             check2 = None
+            hearingloss = 'empty'
             air_left_x = results['frequencies']
             air_left_y = results['air']['Left Ear']['decibels']
             air_right_x = results['frequencies']
             air_right_y = results['air']['Right Ear']['decibels']
+
+            # this checks to see if it is running the full hearing test or quickstart
             if air_left_x == [1000]:
                 air_left_x = [250,500,1000,2000,4000,8000]
                 air_right_x = [250,500,1000,2000,4000,8000]
                 check = air_left_y[0]
-                check_2 = air_right_y[0]
+                check2 = air_right_y[0]
                 air_left_y = [] 
                 air_right_y = []
                 for i in air_left_x:
@@ -62,11 +70,34 @@ class ResultsScreen(Screen):
                         air_left_y.insert(i,check)
                         air_right_y.insert(i,check2)
 
+            #determines the hearing loss in air
+            for i,b in zip(air_left_y,air_right_y):
+                if i <=29 or b <=29:
+                    if hearingloss == 'Moderate' or hearingloss == 'Severe' or hearingloss == 'Mild':
+                        hearingloss = hearingloss
+                    else:
+                        hearingloss = 'No'
+                if 30 <= i <= 50 or 30 <= b <= 50:
+                    if hearingloss == 'Moderate' or hearingloss == 'Severe':
+                        hearingloss = hearingloss
+                    else:
+                        hearingloss = 'Mild'
+                if 51 <= i <= 69 or 51 <= b <= 69:
+                    if hearingloss == 'Severe':
+                        hearingloss = hearingloss
+                    else:
+                        hearingloss = "Moderate"
+                if 70 <= i or 70 <= b:
+                        hearingloss = "Severe"
+
+
             #sets both ear axes for bone
             bone_left_x = results['frequencies']
             bone_left_y = results['bone']['Left Ear']['decibels']
             bone_right_x = results['frequencies']
             bone_right_y = results['bone']['Right Ear']['decibels']
+
+            #checks if quick start or full test for bone
             if bone_left_x == [1000]:
                 bone_left_x = [250,500,1000,2000,4000,8000]
                 bone_right_x = [250,500,1000,2000,4000,8000]
@@ -82,7 +113,29 @@ class ResultsScreen(Screen):
                         bone_left_y.insert(i,check)
                         bone_right_y.insert(i,check2)
 
+            #determines the hearing loss in bone which will override air if need be
+            for i,b in zip(bone_left_y,bone_right_y):
+                if i <=29 or b <=29:
+                    if hearingloss == 'Moderate' or hearingloss == 'Severe' or hearingloss == 'Mild':
+                        hearingloss = hearingloss
+                    else:
+                        hearingloss = 'No'
+                if 30 <= i <= 50 or 30 <= b <= 50:
+                    if hearingloss == 'Moderate' or hearingloss == 'Severe':
+                        hearingloss = hearingloss
+                    else:
+                        hearingloss = 'Mild'
+                if 51 <= i <= 69 or 51 <= b <= 69:
+                    if hearingloss == 'Severe':
+                        hearingloss = hearingloss
+                    else:
+                        hearingloss = "Moderate"
+                if 70 <= i or 70 <= b:
+                        hearingloss = "Severe"
 
+
+            #prints hearing loss text
+            self.loss = Label(text = "You Have %s Hearing Loss" % hearingloss, font_size = 30, pos = (10,-100))
             ##plots air conduction
             air = plt.figure()
             air_graph = air.add_subplot(111)
@@ -137,6 +190,7 @@ class ResultsScreen(Screen):
             plt.savefig('Bone Conduction.png')
             self.bone_picture = Image(source='Bone Conduction.png', size_hint = (0.48,1), pos = (405,80))
 
+            self.layout.add_widget(self.loss)
             self.layout.add_widget(self.air_picture)
             self.air_picture.reload()
             self.layout.add_widget(self.bone_picture)
@@ -147,4 +201,5 @@ class ResultsScreen(Screen):
 
     def go_to_home(self, instance):
         self.screen_manager.current = 'home'
-        self.screen_manager.transition.direction='right'
+
+
