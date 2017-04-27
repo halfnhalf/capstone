@@ -50,8 +50,11 @@ class HomeScreen(Screen):
         go_to_menu_button = Button(text="Menu", background_color = (1,0,0,0.8), font_size = 20, size_hint=(.15, .15),pos = (660,20))
         go_to_menu_button.bind(on_release=self.go_to_menu)
 
+        go_to_bone_button = Button(text="Bone Conduction", background_color = (1,0,0,0.8), font_size = 20, size_hint=(.15, .15))
+        go_to_bone_button.bind(on_release=self.go_to_bone)
 
         layout.add_widget(go_to_menu_button)
+        layout.add_widget(go_to_bone_button)
         layout.add_widget(go_to_hearing_button)
         #layout.add_widget(debug)
         layout.add_widget(vcu)
@@ -63,6 +66,8 @@ class HomeScreen(Screen):
         self.add_widget(self.ece)
         #layout.add_widget(popup)
         
+    def go_to_bone(self, instance):
+        self.screen_manager.current = 'bone'
 
     def go_to_menu(self, touch):
         self.screen_manager.current = 'menu'
