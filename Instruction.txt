@@ -1,2 +1,14 @@
-     Instruction
+Once you leave this screen and press start, the hearing test will begin.
 
+The hearing test will be taken in individual ears starting with the left ear 
+and will cover a range of frequencies.
+If you would like to stop the test at any time press the stop test button.
+
+Follow these steps to take your hearing test:
+1.  A tone will be played on one ear with incremental volumes starting 
+     at silence - gradually getting louder.
+2.  When you're able to hear the tone press the "I hear it!" button.
+3.  If some hearing loss is detected then the bone transducer test will 
+     also be conducted. This follows the same procedure as before.
+
+After the test has been completed your results will be shown.
