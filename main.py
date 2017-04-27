@@ -4,7 +4,9 @@ Config.set('graphics', 'height', '480')
 Config.set('graphics', 'width', '800')
 
 from kivy.app import App
+from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import SlideTransition
 
 from audiometer.screens import MenuScreen, HomeScreen, HearingScreen, ResultsScreen,TestResultsScreen, InstructionScreen
 from audiometer.audio.audiocontroller import AudioController
@@ -16,6 +18,7 @@ class Audiometer(App):
     audio_controller = AudioController()
 
     def build(self):
+        
         Audiometer.root.add_widget(HomeScreen(
             name='home',
             audiometer=Audiometer))

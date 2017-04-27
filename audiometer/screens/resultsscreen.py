@@ -20,8 +20,8 @@ class ResultsScreen(Screen):
         #self.layout = PageLayout(Page = 2)
         self.screen_manager = self.audiometer.root
         self.layout = FloatLayout(size=(800, 480))
-        test_button = Button(text="Home", size_hint = (0.2,0.1), pos = (320,20), font_size = 20)
-        test_button.bind(on_press=self.go_to_demo)
+        test_button = Button(text="Home", background_normal = "images/button.png", background_color = (1,1,0,1),color = (0,0,0,1),size_hint = (0.2,0.1), pos = (320,20), font_size = 20)
+        test_button.bind(on_release=self.go_to_home)
         self.air_picture = None
         self.bone_picture = None
         self.layout.add_widget(test_button)
@@ -145,5 +145,6 @@ class ResultsScreen(Screen):
         except Exception as e:
             print str(e)
 
-    def go_to_demo(self, instance):
+    def go_to_home(self, instance):
         self.screen_manager.current = 'home'
+        self.screen_manager.transition.direction='right'
