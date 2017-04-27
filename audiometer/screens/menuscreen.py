@@ -18,6 +18,8 @@ class MenuScreen(Screen):
         #go_to_results_button = Button(text="results", font_size=40)
         go_to_testresults_button = Button(text="Test Results", background_normal = "images/button.png", font_size=30, color = (0,0,0,1), size_hint=(.25, .5), background_color = (0.9,0.9,0,1),pos = (540,180))
 
+        exit = Button(text="Exit", background_color = (1,0,0,0.8), font_size = 20, size_hint=(.15, .15),pos = (20,20))
+        exit.bind(on_release=self.exit)
         
 
         go_to_demo_button.bind(on_release=self.go_to_demo)
@@ -29,6 +31,7 @@ class MenuScreen(Screen):
         layout.add_widget(go_to_hearing_button)
         #layout.add_widget(go_to_results_button)
         layout.add_widget(go_to_testresults_button)
+        layout.add_widget(exit)
         
         self.add_widget(layout)
 
@@ -47,3 +50,6 @@ class MenuScreen(Screen):
     def go_to_testresults(self, instance):
         self.screen_manager.current = 'testresults'
         self.screen_manager.transition.direction='left'    
+
+    def exit(self, instance):
+        App.get_running_app().stop()
