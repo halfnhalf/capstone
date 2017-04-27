@@ -47,7 +47,7 @@ class HearingTest:
                self.print_thresholds()
                return
             if threshold > 40:
-                self.leftBoneThresholds[i] = self.find_threshold(test_freqs[i], True, True)
+                self.leftBoneThresholds[i] = self.find_threshold(self.test_freqs[i], True, True)
             else:
                 self.leftBoneThresholds[i] = -20
 
@@ -57,7 +57,7 @@ class HearingTest:
                self.print_thresholds()
                return
             if threshold > 40:
-                self.rightBoneThresholds[i] = self.find_threshold(test_freqs[i], False, True)
+                self.rightBoneThresholds[i] = self.find_threshold(self.test_freqs[i], False, True)
             else:
                 self.rightBoneThresholds[i] = -20
 
