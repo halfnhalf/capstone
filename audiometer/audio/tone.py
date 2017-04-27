@@ -38,7 +38,7 @@ class Noise():
         self.generate_period()
 
     def generate_period(self):
-        self.period = [float(self.volume) * random.uniform(-1, 1) for i in range(self.samples_per_period)]
+        #self.period = [float(self.volume) * random.uniform(-1, 1) for i in range(self.samples_per_period)]
         self.period = self.volume*np.random.uniform(-1,1, size=self.samples_per_period)
 
 class Tones():
