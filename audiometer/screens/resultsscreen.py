@@ -155,7 +155,7 @@ class ResultsScreen(Screen):
             ##plots air conduction
             air = plt.figure()
             air_graph = air.add_subplot(111)
-            plt.title('Air')
+            plt.title('Air Audiogram')
             plt.xlabel('Frequency(Hz)')
             plt.ylabel('decibel(dB)')
             plt.ylim((120,-10))
@@ -184,7 +184,7 @@ class ResultsScreen(Screen):
             ## plots bone conduction
             bone = plt.figure()
             bone_graph = bone.add_subplot(111)
-            plt.title('Bone')
+            plt.title('Bone Audiogram')
             plt.xlabel('Frequency(Hz)')
             plt.ylabel('decibel(dB)')
             mpl.rcParams.update({'font.size': 14})

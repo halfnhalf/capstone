@@ -4,6 +4,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.image import Image
 from kivy.uix.behaviors.button import ButtonBehavior
 from kivy.vector import Vector
+from kivy.app import App
 
 class MenuScreen(Screen):
     def __init__(self, **kwargs):
