@@ -145,5 +145,5 @@ class ResultsScreen(Screen):
         except Exception as e:
             print str(e)
 
-    def go_to_demo(self, instance):
+    def go_to_home(self, instance):
         self.screen_manager.current = 'home'
