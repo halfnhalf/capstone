@@ -22,6 +22,7 @@ class ResultsScreen(Screen):
         self.layout = FloatLayout(size=(800, 480))
         test_button = Button(text="Home", background_normal = "images/button.png", background_color = (0.9,0.9,0,1),color = (0,0,0,1),size_hint = (0.2,0.1), pos = (320,20), font_size = 20)
         test_button.bind(on_release=self.go_to_home)
+
         self.air_picture = None
         self.bone_picture = None
         self.layout.add_widget(test_button)
@@ -51,7 +52,7 @@ class ResultsScreen(Screen):
                 air_left_x = [250,500,1000,2000,4000,8000]
                 air_right_x = [250,500,1000,2000,4000,8000]
                 check = air_left_y[0]
-                check_2 = air_right_y[0]
+                check2 = air_right_y[0]
                 air_left_y = [] 
                 air_right_y = []
                 for i in air_left_x:
@@ -81,7 +82,6 @@ class ResultsScreen(Screen):
                     else:
                         bone_left_y.insert(i,check)
                         bone_right_y.insert(i,check2)
-
 
             ##plots air conduction
             air = plt.figure()
@@ -145,6 +145,5 @@ class ResultsScreen(Screen):
         except Exception as e:
             print str(e)
 
-    def go_to_home(self, instance):
+    def go_to_demo(self, instance):
         self.screen_manager.current = 'home'
-        self.screen_manager.transition.direction='right'
