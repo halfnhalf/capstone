@@ -23,7 +23,7 @@ class InstructionScreen(Screen):
         #print contents
         instructionlabel = Label(text = contents, font_size = 15,pos = (20,80))
 
-        back= Button(text = 'Back', size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,0.8), pos = (230,100))        
+        back= Button(text = 'Home', size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,0.8), pos = (230,100))        
         back.bind(on_release=self.back)
         start= Button(text = 'Next',size_hint=(.2, .1),font_size = 20,background_color = (0,1,0,2), pos = (410,100))
         start.bind(on_release=self.start)

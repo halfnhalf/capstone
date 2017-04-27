@@ -18,15 +18,15 @@ class HearingScreen(Screen):
         self.audiometer.test = HearingTest(audiometer=self.audiometer)
 
         self.layout = FloatLayout()
-        self.heard_button = Button(text="I hear it!", color = (0,0,0,1),background_normal = "images/button.png",font_size=50,background_color = (1,1,0,1), size_hint=(.4, .4),pos = (410,250))
-        self.start_button = Button(text="Start Test!", font_size=50, background_color = (0,1,0,1), size_hint=(.4, .4),pos = (70,250))
-        back= Button(text = 'Instruction',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (230,100))
+        self.heard_button = Button(text="I hear it!", color = (0,0,0,1),background_normal = "images/button.png",font_size=50,background_color = (0.9,0.9,0,1), size_hint=(.4, .4),pos = (240,230))
+        self.start_button = Button(text="Start Test!", font_size=20, background_color = (0,1,0,1), size_hint=(.2, .1),pos = (320,100))
+        back= Button(text = 'Instruction',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (140,100))
         back.bind(on_release=self.back)
 
-        home = Button(text="Home", font_size = 20, size_hint=(.2, .1),background_color = (1,0,0,1),pos = (410,100))
+        home = Button(text="Home", font_size = 20, size_hint=(.2, .1),background_color = (1,0,0,1),pos = (500,100))
         home.bind(on_release=self.home)
 
-        self.vcurams = Image(source='./images/vcurams.png', size_hint = (0.25,0.25),pos = (590,-10))
+        self.vcurams = Image(source='./images/vcurams.png', size_hint = (0.2,0.2),pos = (630,-5))
 
         #self.ece = Image(source='./images/ece.png', size_hint = (0.25,0.25),pos = (580,5))
 

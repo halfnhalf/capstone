@@ -21,7 +21,7 @@ class TestResultsScreen(Screen):
         self.screen_manager = self.audiometer.root
 
         
-        result_button_color = (1,1,0,1)
+        result_button_color = (0.9,0.9,0,1)
         results_1_button = Button(text="result 1", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,390))
         results_2_button = Button(text="result 2", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,345))
         results_3_button = Button(text="result 3", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,300))
