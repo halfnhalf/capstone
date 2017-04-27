@@ -24,9 +24,12 @@ class ResultsScreen(Screen):
         self.layout = FloatLayout()
         test_button = Button(text="Home", background_normal = "images/button.png", background_color = (0.9,0.9,0,1),color = (0,0,0,1),size_hint = (0.2,0.1), pos = (320,20), font_size = 20)
         test_button.bind(on_release=self.go_to_home)
+        legend = Label(text = '[size=20][color=026cff]X[/size][/color] is Left ear\n[size=20][color=ff0217]O[/size][/color] is Right ear '
+            , pos = (-340,-210), markup = True)
         self.loss = None
         self.air_picture = None
         self.bone_picture = None
+        self.layout.add_widget(legend)
         self.layout.add_widget(test_button)
         self.add_widget(self.layout)
 
@@ -77,19 +80,22 @@ class ResultsScreen(Screen):
                         hearingloss = hearingloss
                     else:
                         hearingloss = 'No'
+                        color_code = 1
                 if 30 <= i <= 50 or 30 <= b <= 50:
                     if hearingloss == 'Moderate' or hearingloss == 'Severe':
                         hearingloss = hearingloss
                     else:
                         hearingloss = 'Mild'
+                        color_code = 2
                 if 51 <= i <= 69 or 51 <= b <= 69:
                     if hearingloss == 'Severe':
                         hearingloss = hearingloss
                     else:
                         hearingloss = "Moderate"
+                        color_code = 3
                 if 70 <= i or 70 <= b:
                         hearingloss = "Severe"
-
+                        color_code = 4
 
             #sets both ear axes for bone
             bone_left_x = results['frequencies']
@@ -120,22 +126,32 @@ class ResultsScreen(Screen):
                         hearingloss = hearingloss
                     else:
                         hearingloss = 'No'
+                        color_code = 1
                 if 30 <= i <= 50 or 30 <= b <= 50:
                     if hearingloss == 'Moderate' or hearingloss == 'Severe':
                         hearingloss = hearingloss
                     else:
                         hearingloss = 'Mild'
+                        color_code = 2
                 if 51 <= i <= 69 or 51 <= b <= 69:
                     if hearingloss == 'Severe':
                         hearingloss = hearingloss
                     else:
                         hearingloss = "Moderate"
+                        color_code = 3
                 if 70 <= i or 70 <= b:
                         hearingloss = "Severe"
+                        color_code = 4
 
-
-            #prints hearing loss text
-            self.loss = Label(text = "You Have %s Hearing Loss" % hearingloss, font_size = 30, pos = (10,-100))
+            #prints hearing loss text with colors
+            if color_code == 1:
+                self.loss = Label(text = "You Have [color=05fa22]%s[/color] Hearing Loss" % hearingloss, font_size = 30, pos = (10,-100), markup = True)
+            if color_code == 2:
+                self.loss = Label(text = "You Have [color=efff02]%s[/color] Hearing Loss" % hearingloss, font_size = 30, pos = (10,-100), markup = True)
+            if color_code == 3:
+                self.loss = Label(text = "You Have [color=ff9202]%s[/color] Hearing Loss" % hearingloss, font_size = 30, pos = (10,-100), markup = True)
+            if color_code == 4:
+                self.loss = Label(text = "You Have [color=ff3333]%s[/color] Hearing Loss" % hearingloss, font_size = 30, pos = (10,-100), markup = True)
             ##plots air conduction
             air = plt.figure()
             air_graph = air.add_subplot(111)
