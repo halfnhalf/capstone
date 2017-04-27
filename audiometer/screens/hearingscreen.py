@@ -19,9 +19,11 @@ class HearingScreen(Screen):
 
         self.layout = FloatLayout()
         self.heard_button = Button(text="I hear it!", color = (0,0,0,1),background_normal = "images/button.png",font_size=50,background_color = (0.9,0.9,0,1), size_hint=(.4, .4),pos = (240,230))
-        self.start_button = Button(text="Start Test!", font_size=20, background_color = (0,1,0,1), size_hint=(.2, .1),pos = (320,100))
-        back= Button(text = 'Instruction',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (140,100))
-        back.bind(on_release=self.back)
+        self.start_button = Button(text="Start Test!", font_size=20, background_color = (0,1,0,1), size_hint=(.2, .1),pos = (320,160))
+        instruction= Button(text = 'Instruction',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (320,100))
+        instruction.bind(on_release=self.instruction)
+        menu= Button(text = 'Menu',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (140,100))
+        menu.bind(on_release=self.menu)
 
         home = Button(text="Home", font_size = 20, size_hint=(.2, .1),background_color = (1,0,0,1),pos = (500,100))
         home.bind(on_release=self.home)
@@ -35,7 +37,8 @@ class HearingScreen(Screen):
         self.start_button.bind(always_release=self.on_start_press)
         self.layout.add_widget(self.start_button)
         self.layout.add_widget(self.heard_button)
-        self.layout.add_widget(back)
+        self.layout.add_widget(instruction)
+        self.layout.add_widget(menu)
         self.layout.add_widget(home)
         self.add_widget(self.layout)
         self.add_widget(self.vcurams)  
@@ -74,11 +77,15 @@ class HearingScreen(Screen):
         self.screen_manager.current = 'results'
 
 
-    def back(self, instance):
+    def instruction(self, instance):
         self.screen_manager.current = 'instruction'
         self.screen_manager.transition.direction='right'
 
     def home(self, instance):
         self.screen_manager.current = 'home'
+        self.screen_manager.transition.direction='right'
+
+    def menu(self, instance):
+        self.screen_manager.current = 'menu'
         self.screen_manager.transition.direction='right'
 
