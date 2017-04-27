@@ -21,7 +21,7 @@ class HearingScreen(Screen):
         self.heard_button = Button(text="I hear it!", color = (0,0,0,1),background_normal = "images/button.png",font_size=50,background_color = (0.9,0.9,0,1), size_hint=(.4, .4),pos = (240,230))
 
         self.start_button = Button(text="Start Test!", font_size=20, background_color = (0,1,0,1), size_hint=(.2, .1),pos = (320,100))
-        instruction= Button(text = 'Instruction',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (140,100))
+        instruction= Button(text = 'Instructions',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (140,100))
         instruction.bind(on_release=self.instruction)
         #menu= Button(text = 'Menu',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (140,100))
         #menu.bind(on_release=self.menu)
