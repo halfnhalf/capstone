@@ -31,58 +31,58 @@ class ResultsScreen(Screen):
 
     def result_button_pressed(self, filename):
         if self.air_picture is not None and self.bone_picture is not None:
+            plt.close('all')
             self.layout.remove_widget(self.air_picture)
             self.layout.remove_widget(self.bone_picture)
 
         self.filename = filename
-        with open(os.path.join(os.path.dirname(__file__),'../../data/' + self.filename)) as json_data:
+        try:
+            with open(os.path.join(os.path.dirname(__file__),'../../data/' + self.filename)) as json_data:
                 results = json.load(json_data)
+                
+            #sets both ear axes for air 
+            air_left_x = results['frequencies']
+            air_left_y = results['air']['Left Ear']['decibels']
+            air_right_x = results['frequencies']
+            air_right_y = results['air']['Right Ear']['decibels']
 
-        #sets both ear axes for air
-        air_left_x = [250,500,1000,2000,4000,8000]
-        air_left_y = results['air']['Left Ear']['decibels']
-        air_right_x = [250,500,1000,2000,4000,8000]
-        air_right_y = results['air']['Right Ear']['decibels']
+            #sets both ear axes for bone
+            bone_left_x = results['frequencies']
+            bone_left_y = results['bone']['Left Ear']['decibels']
+            bone_right_x = results['frequencies']
+            bone_right_y = results['bone']['Right Ear']['decibels']
 
-        #sets both ear axes for bone
-        bone_left_x = [250,500,1000,2000,4000,8000]
-        bone_left_y = results['bone']['Left Ear']['decibels']
-        bone_right_x = [250,500,1000,2000,4000,8000]
-        bone_right_y = results['bone']['Right Ear']['decibels']
+            ##plots air conduction
+            air = plt.figure()
+            air_graph = air.add_subplot(111)
+            plt.title('Air')
+            plt.xlabel('Frequency(Hz)')
+            plt.ylabel('decibel(dB)')
+            plt.ylim((60,-10))
+            air_graph.plot(air_left_x,air_left_y, 'bx-', markersize = 12)
+            air_graph.plot(air_right_x,air_right_y, 'ro-', markersize =12)
+            plt.savefig('Air Conduction.png')
+            self.air_picture = Image(source='Air Conduction.png', size_hint = (0.48,1), pos = (10, 80))
 
-        ##plots air conduction
-        air = plt.figure()
-        air_graph = air.add_subplot(111)
-        plt.title('Air')
-        plt.xlabel('Frequency(Hz)')
-        plt.ylabel('decibel(dB)')
-        plt.ylim((60,-10))
-        air_graph.plot(air_left_x,air_left_y, 'bx-', markersize = 12)
-        air_graph.plot(air_right_x,air_right_y, 'ro-', markersize =12)
-        plt.savefig('Air Conduction.png')
-        self.air_picture = Image(source='Air Conduction.png', size_hint = (0.48,1), pos = (10, 80))
+            ## plots bone conduction
+            bone = plt.figure()
+            bone_graph = bone.add_subplot(111)
+            plt.title('Bone')
+            plt.xlabel('Frequency(Hz)')
+            plt.ylabel('decibel(dB)')
+            plt.ylim((60,-10))
+            bone_graph.plot(bone_left_x,bone_left_y, 'bx-', markersize = 12)
+            bone_graph.plot(bone_right_x,bone_right_y, 'ro-', markersize =12)
+            plt.savefig('Bone Conduction.png')
+            self.bone_picture = Image(source='Bone Conduction.png', size_hint = (0.48,1), pos = (405,80))
 
-        ## plots bone conduction
-        bone = plt.figure()
-        bone_graph = bone.add_subplot(111)
-        plt.title('Bone')
-        plt.xlabel('Frequency(Hz)')
-        plt.ylabel('decibel(dB)')
-        plt.ylim((60,-10))
-        bone_graph.plot(bone_left_x,bone_left_y, 'bx-', markersize = 12)
-        bone_graph.plot(bone_right_x,bone_right_y, 'ro-', markersize =12)
-        plt.savefig('Bone Conduction.png')
-        self.bone_picture = Image(source='Bone Conduction.png', size_hint = (0.48,1), pos = (405,80))
+            self.layout.add_widget(self.air_picture)
+            self.air_picture.reload()
+            self.layout.add_widget(self.bone_picture)
+            self.bone_picture.reload()
 
-        self.layout.add_widget(self.air_picture)
-        self.air_picture.reload()
-        self.layout.add_widget(self.bone_picture)
-        self.bone_picture.reload()
+        except Exception as e:
+            print str(e)
 
     def go_to_demo(self, instance):
         self.screen_manager.current = 'home'
-
-
-	
-
-	

@@ -5,3 +5,4 @@ audiostream/
 *.pyc
 /*.json
 /*.png
+data/[^0-9]*.json
