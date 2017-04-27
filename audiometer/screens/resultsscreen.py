@@ -195,3 +195,4 @@ class ResultsScreen(Screen):
     def go_to_home(self, instance):
         self.screen_manager.current = 'home'
 
+
