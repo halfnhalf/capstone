@@ -29,8 +29,8 @@ class HomeScreen(Screen):
 
         layout = FloatLayout(size = (800,480))
 
-        popup = Popup(title = 'image', content = Image(source = './images/vcu.png'), size_hint = (None, None), size = 400,400)
-        popup.bind(on_release = self.pop1)
+        #popup = Popup(title = 'image', content = Image(source = './images/vcu.png'), size_hint = (None, None), size = 400,400)
+        #popup.bind(on_release = self.pop1)
 
         vcu = Label(text = 'VCU',color = (1,.8,0,1), font_size = 60,pos = (60,150), outline_color = [0,0,0], outline_width =10)
         eece = Label(text = 'ELECTRICAL \n& COMPUTER \nENGINEERING', font_size = 15,pos = (-260,205))
@@ -60,7 +60,7 @@ class HomeScreen(Screen):
         self.add_widget(layout)
         self.add_widget(self.rams)
         self.add_widget(self.ece)
-        layout.add_widget(popup)
+        #layout.add_widget(popup)
         
 
     def go_to_menu(self, touch):

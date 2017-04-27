@@ -20,7 +20,7 @@ class TestResultsScreen(Screen):
         self.layout = GridLayout(cols=2)
         self.screen_manager = self.audiometer.root
 
-        self.filename = kwargs['filename']
+        
         result_button_color = (1,1,0,1)
         results_1_button = Button(text="result 1", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,390))
         results_2_button = Button(text="result 2", size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,345))
