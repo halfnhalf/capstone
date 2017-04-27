@@ -20,7 +20,7 @@ class TestResultsScreen(Screen):
         self.audio_controller = self.audiometer.audio_controller
         self.layout = GridLayout(cols=2)
         self.screen_manager = self.audiometer.root
-
+        self.infile = []
         
         result_button_color = (0.9,0.9,0,1)
         results_1_button = Button(text='result 1', size_hint = (0.35,0.07),color = (0,0,0,1),background_normal = "images/button.png", background_color = result_button_color, font_size = 20, pos = (260,390))
@@ -32,8 +32,8 @@ class TestResultsScreen(Screen):
         results_1_button.bind(on_release=self.go_to_results_1)
         results_2_button.bind(on_release=self.go_to_results_2)
         results_3_button.bind(on_release=self.go_to_results_3)
-        results_4_button.bind(on_release=self.go_to_results_1)
-        results_5_button.bind(on_release=self.go_to_results_1)
+        results_4_button.bind(on_release=self.go_to_results_4)
+        results_5_button.bind(on_release=self.go_to_results_5)
 
         back= Button(text = 'Back',size_hint=(.2, .1),font_size = 20,background_color = (1,0,0,1),pos = (230,100))
         back.bind(on_release=self.back)
@@ -69,7 +69,7 @@ class TestResultsScreen(Screen):
 
     def go_to_results_3(self, instance):
         self.infile = []
-        self.get_audiograms()
+        self.get_audiograms()  
         self.audiometer.root.get_screen('results').result_button_pressed(self.infile[5])
         self.screen_manager.current = 'results'
 
