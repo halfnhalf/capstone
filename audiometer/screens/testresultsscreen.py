@@ -30,7 +30,7 @@ class TestResultsScreen(Screen):
 
         results_1_button.bind(on_release=self.go_to_results_1)
         results_2_button.bind(on_release=self.go_to_results_2)
-        results_3_button.bind(on_release=self.go_to_results_1)
+        results_3_button.bind(on_release=self.go_to_results_3)
         results_4_button.bind(on_release=self.go_to_results_1)
         results_5_button.bind(on_release=self.go_to_results_1)
 
@@ -58,6 +58,10 @@ class TestResultsScreen(Screen):
     def go_to_results_2(self, instance):
         self.audiometer.root.get_screen('results').result_button_pressed('test2.json')
         self.screen_manager.current = 'results'
+
+    def go_to_results_3(self, instance):
+        self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
+        self.screen_manager.current = 'results'    
 
     def back(self, instance):
         self.screen_manager.current = 'menu'
