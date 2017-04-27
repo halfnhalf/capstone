@@ -43,9 +43,6 @@ class HearingScreen(Screen):
 
     def on_stop_press(self, instance):
         self.audiometer.test.stop_thread()
-        self.start_button.funbind('on_press', self.on_stop_press)
-        self.start_button.fbind('on_press', self.on_start_press)
-        self.start_button.text = "Start Test!"
 
     def on_heard_press(self, instance):
         self.audiometer.test.button_press()
@@ -58,11 +55,11 @@ class HearingScreen(Screen):
 
     @mainthread
     def thread_ended_go_to_results(self):
-        self.on_stop_press(None)
-        self.audiometer.test.stop.clear()
+        self.start_button.funbind('on_press', self.on_stop_press)
+        self.start_button.fbind('on_press', self.on_start_press)
+        self.start_button.text = "Start Test!"
         self.audiometer.root.get_screen('results').result_button_pressed('current_audiogram.json')
         self.screen_manager.current = 'results'
-
 
     def back(self, instance):
         self.screen_manager.current = 'instruction'
