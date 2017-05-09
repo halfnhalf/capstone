@@ -8,7 +8,7 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager
 from kivy.uix.screenmanager import SlideTransition
 
-from audiometer.screens import MenuScreen, HomeScreen, HearingScreen, ResultsScreen,TestResultsScreen, InstructionScreen, BoneScreen
+from audiometer.screens import MenuScreen, HomeScreen, HearingScreen, ResultsScreen,TestResultsScreen, InstructionScreen
 from audiometer.audio.audiocontroller import AudioController
 
 class Audiometer(App):
@@ -36,9 +36,6 @@ class Audiometer(App):
             audiometer=Audiometer))
         Audiometer.root.add_widget(InstructionScreen(
             name='instruction',
-            audiometer=Audiometer))
-        Audiometer.root.add_widget(BoneScreen(
-            name='bone',
             audiometer=Audiometer))
         return Audiometer.root
 
