@@ -1,5 +1,7 @@
 import tone
 import pyaudio
+import sounddevice as sd
+import time 
 from sys import platform
 
 class AudioController:
@@ -28,14 +30,15 @@ class AudioController:
         AudioController.sound_is_playing = True
         sounds = tone.Tones(frequencies, duration)
         if platform == "linux" or platform == "linux2":
-            AudioController.stream = self.p.open(
-                format=pyaudio.get_format_from_width(2),
-                channels=sounds.num_channels,
-                rate=tone.RATE,
-                frames_per_buffer=tone.BUFSIZE,
-                output=True,
-                stream_callback=sounds.callback,
-                output_device_index=4)
+            with sd.OutputStream(
+                samplerate = tone.RATE,
+                blocksize  = tone.BUFSIZE,
+                channels   = sounds.num_channels,
+                dtype      = 'int16',
+                device     = 4,
+                callback   = sounds.callback) as stream:
+                while(stream.active):
+                    time.sleep(.1)
         else:
             AudioController.stream = self.p.open(
                 format=pyaudio.get_format_from_width(2),
@@ -45,7 +48,7 @@ class AudioController:
                 output=True,
                 stream_callback=sounds.callback)
 
-        AudioController.stream.start_stream()
+        #AudioController.stream.start_stream()
         AudioController.sound_object = sounds
 
     def stop_sound(self, instance=None):
@@ -55,8 +58,6 @@ class AudioController:
         '''
         assert AudioController.sound_is_playing == True
         AudioController.sound_object.stop_sound()
-        AudioController.stream.stop_stream()
-        AudioController.stream.close()
         AudioController.sound_is_playing = False 
 
     def update_tones(self, slider=None, value=None, frequencies=None):

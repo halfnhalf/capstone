@@ -179,7 +179,6 @@ class HearingTest:
         #     else:
         #         self.audio_controller.play_sound(frequencies=[(freq, 0),(freq, amp),(-1,whiteNoiseAmp),(freq,0)], duration=2)
             
-    
     def stop_freq(self):
         if self.audio_controller.sound_is_playing:
             self.audio_controller.stop_sound()
