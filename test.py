@@ -45,17 +45,17 @@ def main(argv):
 
     elif channels == 4:
         print "right muted"
-        audio_controller.play_sound(frequencies=[(400,.5),(0,0),(400,.1),(0,0)])
+        audio_controller.play_sound(frequencies=[(400,.5),(0,0),(400,.1),(0,0)], duration=2)
         sleep(2)
 	audio_controller.stop_sound()
 
         print "testing different volumes"
-        audio_controller.play_sound(frequencies=[(400,.2),(400,.1),(400,.2),(400,.1)])
+        audio_controller.play_sound(frequencies=[(400,.2),(400,.1),(400,.2),(400,.1)], duration=2)
         sleep(2)
 	audio_controller.stop_sound()
 
         print "testing different frequencies"
-        audio_controller.play_sound(frequencies=[(400,.1),(8000,.1),(400,.1),(8000,.1)])
+        audio_controller.play_sound(frequencies=[(400,.1),(8000,.1),(400,.1),(8000,.1)], duration=2)
         sleep(2)
 	audio_controller.stop_sound()
 
